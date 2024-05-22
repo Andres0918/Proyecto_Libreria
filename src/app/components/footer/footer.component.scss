@@ -1,0 +1,40 @@
+/*MENU FOOTER*/
+.barra{
+    padding-top:4rem; 
+}
+@media (min-width: 768px){
+    .barra{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+}
+.logo{
+    color: var(--blanco);
+}
+.logo__nombre{
+    font-weight: normal;
+}
+.logo__bold{
+    font-weight: 700;
+}
+
+.footer{
+    background-color: var(--negro);
+    color: var(--blanco);
+    padding-bottom: 3rem;
+    margin-top: 4rem;
+}
+@media (min-width: 768px){
+    .navegacion__footer{
+        display: flex;
+        gap: 2rem;
+    }
+}
+.enlace__footer{
+    display: block;
+    text-align: center;
+    font-size: 1.8rem;
+    color: var(--blanco);
+}
+/*FIN MENU*/

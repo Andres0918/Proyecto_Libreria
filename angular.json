@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "ProyectoBiblioteca": {
+    "proyectobiblioteca": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -62,10 +62,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "ProyectoBiblioteca:build:production"
+              "buildTarget": "proyectobiblioteca:build:production"
             },
             "development": {
-              "buildTarget": "ProyectoBiblioteca:build:development"
+              "buildTarget": "proyectobiblioteca:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -73,7 +73,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "buildTarget": "ProyectoBiblioteca:build"
+            "buildTarget": "proyectobiblioteca:build"
           }
         },
         "test": {
