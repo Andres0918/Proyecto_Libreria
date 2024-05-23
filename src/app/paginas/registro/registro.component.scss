@@ -1,4 +1,4 @@
-.login-container {
+.register-container {
   max-width: 400px;
   margin: 50px auto;
   padding: 20px;
@@ -33,8 +33,8 @@
   margin-bottom: 10px;
 }
 
-.btn-primary {
-  background-color: #007bff;
+.btn-success {
+  background-color: #28a745;
 }
 
 .btn-google {
@@ -46,18 +46,4 @@
 
 .btn-google i {
   margin-right: 10px;
-}
-
-.register-link {
-  text-align: center;
-  margin-top: 15px;
-}
-
-.register-link a {
-  color: #007bff;
-  text-decoration: none;
-}
-
-.register-link a:hover {
-  text-decoration: underline;
 }
