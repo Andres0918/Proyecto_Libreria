@@ -1,0 +1,69 @@
+
+.contenedor{
+    max-width: 120rem;
+    margin: 0 auto;
+}
+/*GRID*/
+.grid{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+}
+@media (min-width: 768px){
+    .grid{
+  grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+/*PRODUCTO*/
+.producto{
+    text-align: center;
+    padding: 1rem;
+    background-color: #784d3caa;
+    border-radius: 2rem;
+}
+/* .producto__informacion{
+
+}*/
+.producto__imagen{
+    background-color: #fff;
+    padding: 2rem;
+    border-radius: 1rem;
+}
+.producto__nombre{
+  font-size: 3rem;
+}
+.producto__precio{
+  font-size: 2rem;
+  color: var(--secundario);
+}
+.producto__nombre,
+.producto__precio{
+    font-family: var(--fuentePrincipal);
+    margin: 1rem 0;
+    text-align: center;
+    line-height: 1.2;
+}
+.producto__nombre{
+    color: var(--primario);
+}
+.producto__precio{
+    color: var(--blanco);
+}
+/*GRAFICOS*/
+.grafico{
+  min-height: 30rem;
+  background-repeat: no-repeat;
+  background-size: cover;
+  grid-column: 1/3;
+}
+.grafico--node{
+  background-image: url(../../../assets/libro3.webp);
+  grid-row: 8/9;
+}
+@media (min-width: 768px){
+  .grafico--node{
+      grid-row: 5/6;
+      grid-column: 2/4;
+  }         
+}
