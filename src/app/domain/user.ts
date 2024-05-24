@@ -1,5 +1,4 @@
 export class user{
-  nombre!: string
-  email!: string
-  password!: string
+  email!: any
+  password!: any
 }
