@@ -2,11 +2,14 @@ import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { Storage, ref, uploadBytes, listAll, getDownloadURL } from '@angular/fire/storage';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { InformacionService } from '../../services/informacion.service';
+import { Message } from '../../domain/message';
 
 @Component({
   selector: 'app-biblioteca',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, RouterLink, FormsModule],
   templateUrl: './biblioteca.component.html',
   styleUrls: ['./biblioteca.component.scss']
 })
@@ -14,12 +17,27 @@ export class BibliotecaComponent {
   images: string[];
   mostrarContenedor: boolean = false;
 
-  constructor(private storage: Storage) {
+  message: Message = new Message();
+  messages: any;
+
+  constructor(private storage: Storage, private informacionService:InformacionService) {
     this.images = [];
   }
 
   ngOnInit() {
     this.getImages();
+
+    this.informacionService.getMessages().then(data => {
+      this.messages = data.docs.map((doc:any) =>{
+        console.log(doc.id)
+        console.log(doc.data())
+        return {
+          id: doc.id,
+          ...doc.data()
+        }
+      })
+      console.log('msgs', this.messages)
+    })
   }
 
   uploadImage($event: any) {
@@ -50,6 +68,12 @@ export class BibliotecaComponent {
       })
       .catch(error => console.log(error));
   }
+
+  guardar(){
+    this.informacionService.addMessage(this.message)
+  }
+
+
 
   // Nuevo método para agregar un producto vacío
   addProduct() {
