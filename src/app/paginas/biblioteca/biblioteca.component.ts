@@ -18,6 +18,7 @@ export class BibliotecaComponent implements OnInit {
   images: string[];
   formulario: FormGroup;
   libros!: Libro[];
+  libroEnEdicion: Libro | null = null;
 
   constructor(
     private informacionService: InformacionService, 
@@ -43,12 +44,22 @@ export class BibliotecaComponent implements OnInit {
     const libro: Libro = {
       nombre: this.formulario.get('nombre')?.value,
       precio: this.formulario.get('precio')?.value,
-      imagen: this.formulario.get('imagen')?.value // Obtener la URL de la imagen
+      imagen: this.formulario.get('imagen')?.value
     };
 
-    const response = await this.informacionService.addLibro(libro);
-    console.log(response);
+    if (this.libroEnEdicion) {
+      // Actualizar libro existente
+      libro.id = this.libroEnEdicion.id; // Asegúrate de que 'id' es una propiedad de 'Libro'
+      const response = await this.informacionService.updateLibro(libro);
+      console.log(response);
+    } else {
+      // Crear nuevo libro
+      const response = await this.informacionService.addLibro(libro);
+      console.log(response);
+    }
+
     this.formulario.reset();
+    this.libroEnEdicion = null; // Reiniciar el libro en edición
     this.getImages();
   }
 
@@ -56,11 +67,11 @@ export class BibliotecaComponent implements OnInit {
     const response = await this.informacionService.deleteLibro(libro);
     console.log(response);
 
-    if(libro.imagen){
+    if (libro.imagen) {
       const imgRef = ref(this.storage, libro.imagen);
       await deleteObject(imgRef)
-        .then(()=>console.log("Imagen eliminada de Firebase Storage"))
-        .catch(error => console.log("Erro al eliminar la imagen de Firebse Storage", error))
+        .then(() => console.log("Imagen eliminada de Firebase Storage"))
+        .catch(error => console.log("Error al eliminar la imagen de Firebase Storage", error));
     }
   }
 
@@ -91,5 +102,14 @@ export class BibliotecaComponent implements OnInit {
         }
       })
       .catch(error => console.log(error));
+  }
+
+  edit(libro: Libro) {
+    this.libroEnEdicion = libro;
+    this.formulario.patchValue({
+      nombre: libro.nombre,
+      precio: libro.precio,
+      imagen: libro.imagen
+    });
   }
 }
