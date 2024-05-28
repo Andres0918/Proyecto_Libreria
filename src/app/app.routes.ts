@@ -6,7 +6,7 @@ import { HistoriaComponent } from './paginas/historia/historia.component';
 import { BibliotecaComponent } from './paginas/biblioteca/biblioteca.component';
 import { MisionComponent } from './paginas/mision/mision.component';
 import { VisionComponent } from './paginas/vision/vision.component';
-import { ContactoComponent } from './paginas/contacto/contacto.component';
+
 
 
 export const routes: Routes = [
@@ -17,6 +17,5 @@ export const routes: Routes = [
     { path:"historia", component: HistoriaComponent },
     { path:"mision", component: MisionComponent },
     { path:"vision", component: VisionComponent },
-    { path:"contacto", component: ContactoComponent },
     { path:"biblioteca", component: BibliotecaComponent},
 ];
