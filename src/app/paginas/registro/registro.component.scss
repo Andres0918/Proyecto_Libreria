@@ -49,3 +49,21 @@
 .btn-google i {
   margin-right: 10px;
 }
+.register-link {
+  text-align: center;
+  margin-top: 15px;
+}
+
+.register-link a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.register-link a:hover {
+  text-decoration: underline;
+}
+
+.form-error {
+  color: #d9534f; /* color rojo para indicar error */
+  font-size: 14px;
+}
