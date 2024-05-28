@@ -1,22 +1,31 @@
 import { Injectable } from '@angular/core';
-import { Firestore } from '@angular/fire/firestore';
-import { Message } from '../domain/message';
-import { addDoc, collection, getDocs, query } from 'firebase/firestore';
+import { Firestore, collectionData, doc } from '@angular/fire/firestore';
+import Libro from '../domain/libro';
+import { addDoc, collection, deleteDoc } from 'firebase/firestore';
+import { Observable } from 'rxjs';
 
 
 @Injectable({
   providedIn: 'root'
 })
+
 export class InformacionService {
 
-  constructor(private firestore: Firestore) { }
+  constructor (private firestore: Firestore) { }
 
-  addMessage(message: Message){
-    addDoc(collection(this.firestore, 'informacion'), Object.assign({},message))
+  addLibro(libro: Libro){
+    const libroRef = collection(this.firestore, 'libros');
+    return addDoc(libroRef, libro);
   }
 
-  getMessages(){
-    return getDocs(query(collection(this.firestore, 'informacion')))
+  getLibros(): Observable<Libro[]>{
+    const libroRef = collection(this.firestore, 'libros');
+    return collectionData(libroRef, {idField: 'id'}) as Observable<Libro[]>;
+  }
+
+  deleteLibro(libro: Libro){
+    const libroDocRef = doc(this.firestore, `libros/${libro.id}`);
+    return deleteDoc(libroDocRef);
   }
 
 }

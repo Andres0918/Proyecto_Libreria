@@ -1,82 +1,95 @@
-import { Component } from '@angular/core';
-import { RouterLink } from '@angular/router';
-import { Storage, ref, uploadBytes, listAll, getDownloadURL } from '@angular/fire/storage';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { InformacionService } from '../../services/informacion.service';
-import { Message } from '../../domain/message';
+import Libro from '../../domain/libro';
+import { CommonModule } from '@angular/common';
+import { deleteObject, listAll, ref } from 'firebase/storage';
+import { Storage, getDownloadURL, uploadBytes } from '@angular/fire/storage';
 
 @Component({
   selector: 'app-biblioteca',
   standalone: true,
-  imports: [CommonModule, RouterLink, FormsModule],
+  imports: [ReactiveFormsModule, CommonModule],
   templateUrl: './biblioteca.component.html',
   styleUrls: ['./biblioteca.component.scss']
 })
-export class BibliotecaComponent {
+export class BibliotecaComponent implements OnInit {
+
   images: string[];
-  mostrarContenedor: boolean = false;
+  formulario: FormGroup;
+  libros!: Libro[];
 
-  message: Message = new Message();
-  messages: any;
-
-  constructor(private storage: Storage, private informacionService:InformacionService) {
+  constructor(
+    private informacionService: InformacionService, 
+    private storage: Storage
+  ) {
+    this.formulario = new FormGroup({
+      nombre: new FormControl(),
+      precio: new FormControl(),
+      imagen: new FormControl()
+    });
     this.images = [];
   }
 
-  ngOnInit() {
-    this.getImages();
+  ngOnInit(): void {
+    this.informacionService.getLibros().subscribe(libros => {
+      this.libros = libros;
+    });
 
-    this.informacionService.getMessages().then(data => {
-      this.messages = data.docs.map((doc:any) =>{
-        console.log(doc.id)
-        console.log(doc.data())
-        return {
-          id: doc.id,
-          ...doc.data()
-        }
-      })
-      console.log('msgs', this.messages)
-    })
+    this.getImages();
+  }
+
+  async onSubmit() {
+    const libro: Libro = {
+      nombre: this.formulario.get('nombre')?.value,
+      precio: this.formulario.get('precio')?.value,
+      imagen: this.formulario.get('imagen')?.value // Obtener la URL de la imagen
+    };
+
+    const response = await this.informacionService.addLibro(libro);
+    console.log(response);
+    this.formulario.reset();
+    this.getImages();
+  }
+
+  async delete(libro: Libro) {
+    const response = await this.informacionService.deleteLibro(libro);
+    console.log(response);
+
+    if(libro.imagen){
+      const imgRef = ref(this.storage, libro.imagen);
+      await deleteObject(imgRef)
+        .then(()=>console.log("Imagen eliminada de Firebase Storage"))
+        .catch(error => console.log("Erro al eliminar la imagen de Firebse Storage", error))
+    }
   }
 
   uploadImage($event: any) {
     const file = $event.target.files[0];
     console.log(file);
 
-    const imgRef = ref(this.storage, `images/${file.name}`); /*Se marca la referencia a donde se sube la img*/
+    const imgRef = ref(this.storage, `images/${file.name}`);
 
     uploadBytes(imgRef, file)
-      .then(response => {
+      .then(async response => {
         console.log(response);
-        this.getImages();
+        const url = await getDownloadURL(imgRef);
+        this.formulario.patchValue({ imagen: url }); // Actualizar el valor del control 'imagen' en el formulario
       })
-      .catch(error => console.log(error));  /*Ya se suben las img a FireBase*/
+      .catch(error => console.log(error));
   }
 
   getImages() {
-    const imagesRef = ref(this.storage, 'images'); /*Referencia para obtener las imagenes*/
-
+    const imagesRef = ref(this.storage, 'images');
     listAll(imagesRef)
       .then(async response => {
         console.log(response);
         this.images = [];
-        for (let item of response.items) { /*Recorro los Items para descargar por su URL y mostrarlos*/
+        for (let item of response.items) { // Recorrer y obtener los items
           const url = await getDownloadURL(item);
           this.images.push(url);
         }
       })
       .catch(error => console.log(error));
-  }
-
-  guardar(){
-    this.informacionService.addMessage(this.message)
-  }
-
-
-
-  // Nuevo método para agregar un producto vacío
-  addProduct() {
-    this.mostrarContenedor = true;
   }
 }
