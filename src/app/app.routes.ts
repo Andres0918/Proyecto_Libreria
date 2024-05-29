@@ -4,7 +4,6 @@ import { InicioComponent } from './paginas/inicio/inicio.component';
 import { RegistroComponent } from './paginas/registro/registro.component';
 import { HistoriaComponent } from './paginas/historia/historia.component';
 import { BibliotecaComponent } from './paginas/biblioteca/biblioteca.component';
-import { GenerosComponent } from './paginas/generos/generos.component';
 import { UserinfoComponent } from './paginas/userinfo/userinfo.component';
 import { MisionComponent } from './paginas/mision/mision.component';
 import { VisionComponent } from './paginas/vision/vision.component';
