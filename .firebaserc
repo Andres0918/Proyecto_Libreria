@@ -1,5 +1,9 @@
 {
   "projects": {
-    "default": "proyecto-biblioteca-268b2"
-  }
+    "default": "project-biblioteca",
+    "project-biblioteca": "project-biblioteca"
+  },
+  "targets": {},
+  "etags": {},
+  "dataconnectEmulatorConfig": {}
 }

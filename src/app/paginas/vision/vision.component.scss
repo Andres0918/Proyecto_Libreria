@@ -1,0 +1,41 @@
+.entrada:last-of-type{
+    border: none;
+    border-bottom: 0;
+}
+.boton{
+    display: block;
+    font-family: var(--fuenteHeading);
+    color: var(--blanco);
+    text-align: center;
+    padding: 1rem 3rem;
+    font-size: 1.8rem;
+    text-transform: uppercase;
+    font-weight: 700;
+    margin-bottom: 2rem;
+    border: none;
+}
+@media (min-width: 768px){
+    .boton{
+        display: inline-block;
+    }
+}
+.boton:hover{
+    cursor: pointer;
+}
+.boton--primario{
+    background-color: var(--negro);
+}
+.boton--primario:hover{
+    background-color: #3a3939;
+    font-size: 2rem;
+}
+.boton--secundario{
+    background-color: var(--primario);
+}
+@media (min-width: 768px){
+    .sobre-nosotros{
+     display: grid;
+     grid-template-columns: repeat(2,1fr);
+     column-gap: 2rem;
+    }
+}
