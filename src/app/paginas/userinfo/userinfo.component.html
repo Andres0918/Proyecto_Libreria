@@ -1,0 +1,15 @@
+<form (submit)="updateProfile()">
+  <div>
+      <label for="displayName">Nombre:</label>
+      <input type="text" id="displayName" [(ngModel)]="user.displayName" name="displayName">
+  </div>
+  <div>
+      <label for="photoURL">Foto de perfil (URL):</label>
+      <input type="url" id="photoURL" [(ngModel)]="user.photoURL" name="photoURL">
+  </div>
+  <div>
+      <label for="phone">Teléfono:</label>
+      <input type="tel" id="phone" [(ngModel)]="user.phone" name="phone">
+  </div>
+  <button type="submit">Actualizar perfil</button>
+</form>

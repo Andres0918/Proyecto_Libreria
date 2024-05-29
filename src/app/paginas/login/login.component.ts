@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { RouterLink} from '@angular/router';
+import { Router, RouterLink} from '@angular/router';
 import { UserService } from '../../services/user.service';
 import { user } from '../../domain/user';
 
@@ -15,12 +15,13 @@ export class LoginComponent {
 
   user: user = new user()
 
-  constructor(private userService: UserService){}
+  constructor(private userService: UserService, private router: Router){}
 
   loginWithGoogle(){
     this.userService.loginGoogle().
     then(response => {
       console.log(response)
+      this.router.navigate(['inicio'])
     }).catch(error => console.log(error))
   }
 
@@ -28,6 +29,7 @@ export class LoginComponent {
     this.userService.login(this.user.email, this.user.password).
     then(response => {
       console.log(response)
+      this.router.navigate(['inicio'])
     }).catch(error => console.log(error))
   }
 }

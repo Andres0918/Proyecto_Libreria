@@ -3,6 +3,7 @@ import { UserService } from '../../services/user.service';
 import { FormsModule } from '@angular/forms';
 import { user } from '../../domain/user';
 import { Router, RouterLink } from '@angular/router';
+import { updateProfile } from 'firebase/auth';
 
 @Component({
   selector: 'app-registro',
@@ -31,7 +32,9 @@ export class RegistroComponent {
       this.userService.register(this.user.email, this.user.password).
       then(response => {
         console.log(response)
-        this.router.navigate(['login'])
+        const user = response.user
+        console.log('usuario: ',user)
+        this.router.navigate(['userinfo'])
       }).catch(error => console.log(error))
       
     }
@@ -41,6 +44,9 @@ export class RegistroComponent {
     this.userService.loginGoogle().
     then(response => {
       console.log(response)
+      const user = response.user
+      console.log('usuario: ',user)
+      this.router.navigate(['inicio'])
     }).catch(error => console.log(error))
     
   }
