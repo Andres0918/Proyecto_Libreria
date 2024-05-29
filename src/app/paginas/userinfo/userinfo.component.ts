@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { user } from '../../domain/user';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-userinfo',
@@ -12,9 +13,10 @@ import { user } from '../../domain/user';
 export class UserinfoComponent {
   displayName: any
   photoURL: any
-  phone: any
   
-  updateProfile(){
+  constructor(private userService: UserService){}
 
+  updateProfile(){
+    
   }
 }

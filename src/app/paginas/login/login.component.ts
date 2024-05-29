@@ -22,7 +22,7 @@ export class LoginComponent {
     then(response => {
       console.log(response)
       this.router.navigate(['inicio'])
-    }).catch(error => console.log(error))
+    }).catch(error => console.log(error.code))
   }
 
   login(){
@@ -30,6 +30,23 @@ export class LoginComponent {
     then(response => {
       console.log(response)
       this.router.navigate(['inicio'])
-    }).catch(error => console.log(error))
+    }).catch(error => {
+      console.log(error.code)
+      if(error.code === 'auth/missing-email'){
+        alert('Ingrese su email')
+      }
+      if(error.code === 'auth/missing-password'){
+        alert('Ingrese su contraseña')
+      }
+      if(error.code === 'auth/invalid-credential'){
+        alert('Correo o contraseña incorrectos')
+      }
+      if(error.code === 'auth/invalid-email'){
+        alert('El email ingresado no es valido')
+      }
+      if(error.code === 'auth/too-many-requests'){
+        alert('Excedio el limite de intentos de inicio de sesion')
+      }
+    })
   }
 }
