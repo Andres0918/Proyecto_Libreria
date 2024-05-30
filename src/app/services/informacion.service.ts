@@ -31,6 +31,7 @@ export class InformacionService {
     return updateDoc(libroDocRef, {
       nombre: libro.nombre,
       precio: libro.precio,
+      autor: libro.autor,
       imagen: libro.imagen
     });
   }

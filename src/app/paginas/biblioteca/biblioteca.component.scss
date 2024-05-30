@@ -1,59 +1,125 @@
-:root{
-  --fuenteParrafos: 'Open Sans', sans-serif;
-}
-.contenedor{
-    max-width: 120rem;
-    margin: 0 auto;
-}
-/*GRID*/
-.grid{
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 2rem;
-}
-@media (min-width: 768px){
-    .grid{
-  grid-template-columns: repeat(3, 1fr);
-    }
+.contenedor {
+  max-width: 120rem;
+  margin: 0 auto;
 }
 
-/*lIBROS*/
-form{
-  background-color: #784d3caa;
+/* GRID */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+}
+
+@media (min-width: 768px) {
+  .grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* FORMULARIO */
+form {
+  background-color: #f3f3f3; /* Fondo gris claro */
   padding: 2rem;
   border-radius: 1rem;
   margin-bottom: 2rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra ligera */
 }
-input{
-  border-color: #784d3caa;
+
+input {
+  border: 1px solid #ccc; /* Borde gris */
   border-radius: 0.5rem;
+  padding: 0.5rem;
+  width: 100%;
+  margin-bottom: 1rem;
+  box-sizing: border-box;
 }
 
-
-.libros{
-    text-align: center;
-    padding: 1rem;
-    background-color: #784d3caa;
-    border-radius: 2rem;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 5rem;
+input[type="submit"] {
+  background-color: #4CAF50; /* Verde */
+  color: white;
+  border: none;
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
 }
 
-.images{
-  background-color: white;
-  padding: 2rem ;
-}
-.nuevo{
-  background-color: rgb(184, 230, 117);
-}
-.btn-editar{
-  background-color: rgb(225, 222, 40);
-}
-.btn-eliminar{
-  background-color: rgb(212, 64, 64);
-}
-button{
-  border-radius: .5rem;
+input[type="submit"]:hover {
+  background-color: #45a049; /* Verde más oscuro al pasar el ratón */
 }
 
+/* LIBROS */
+.libros {
+  text-align: center;
+  padding: 1rem;
+  background-color: #f3f3f3; /* Fondo gris claro */
+  border-radius: 2rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  justify-content: center;
+  align-items: center;
+}
+
+.libro {
+  background-color: #fff; /* Fondo blanco */
+  border-radius: 1rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra ligera */
+  padding: 1rem;
+  max-width: 300px;
+  text-align: center;
+  justify-content: center;
+}
+
+.images {
+  background-color: #f0f0f0; /* Fondo gris */
+  padding: 1rem;
+  width: 200px;
+  height: 300px;
+  overflow: hidden;
+  border-radius: 1rem;
+}
+
+.images img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 1rem;
+}
+
+.info h4 {
+  font-size: 1.2rem;
+  margin: 0.5rem 0;
+}
+
+.info p {
+  font-size: 1rem;
+  margin: 0.5rem 0;
+}
+
+.info h5 {
+  font-size: 1.1rem;
+  color: #4a90e2; /* Azul */
+  margin: 0.5rem 0;
+}
+
+button {
+  border: none;
+  color: #fff;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  margin-top: 0.5rem;
+  transition: background-color 0.3s ease;
+}
+
+.btn-editar {
+  background-color: #f5a623; /* Amarillo */
+}
+
+.btn-eliminar {
+  background-color: #d9534f; /* Rojo */
+}
+
+button:hover {
+  opacity: 0.8;
+}
