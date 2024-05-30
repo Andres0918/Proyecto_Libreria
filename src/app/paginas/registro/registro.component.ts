@@ -40,7 +40,6 @@ export class RegistroComponent {
         this.userF = response.user
         console.log('usuario: ',this.userF)
         this.authService.setUser(this.userF)
-        console.log('Usuario en service: ', this.authService.getUser())
         this.router.navigate(['userinfo'])
 
       }).catch(error => {
@@ -63,8 +62,8 @@ export class RegistroComponent {
     this.userService.loginGoogle().
     then(response => {
       console.log(response)
-      const user = response.user
-      console.log('usuario: ',user)
+      console.log('usuario: ',response.user)
+      this.authService.setUser(response.user)
       this.router.navigate(['inicio'])
     }).catch(error => {
       console.log(error.code)

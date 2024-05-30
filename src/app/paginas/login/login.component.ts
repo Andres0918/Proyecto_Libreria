@@ -3,6 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { Router, RouterLink} from '@angular/router';
 import { UserService } from '../../services/user.service';
 import { user } from '../../domain/user';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -15,21 +16,28 @@ export class LoginComponent {
 
   user: user = new user()
 
-  constructor(private userService: UserService, private router: Router){}
+  constructor(private userService: UserService, private router: Router, private authService: AuthService){}
 
   loginWithGoogle(){
+
     this.userService.loginGoogle().
     then(response => {
+
       console.log(response)
+      this.authService.setUser(response.user)
       this.router.navigate(['inicio'])
+
     }).catch(error => console.log(error.code))
   }
 
   login(){
     this.userService.login(this.user.email, this.user.password).
     then(response => {
+
       console.log(response)
+      this.authService.setUser(response.user)
       this.router.navigate(['inicio'])
+
     }).catch(error => {
       console.log(error.code)
       if(error.code === 'auth/missing-email'){

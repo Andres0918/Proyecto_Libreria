@@ -1,0 +1,65 @@
+.user-profile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  max-width: 350px;
+  margin: auto;
+  text-align: center;
+}
+
+.user-profile img {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  border: 3px solid #007BFF;
+  margin-bottom: 20px;
+}
+
+.user-details h2, .user-details p {
+  margin: 0;
+  padding: 5px;
+}
+
+.user-details h2 {
+  font-size: 24px;
+  color: #333;
+}
+
+.user-details p {
+  font-size: 16px;
+  color: #555;
+}
+
+.user-profile button, .user-profile a {
+  width: 200px; /* Asegura que ambos botones ocupen todo el ancho disponible */
+  display: block; /* Asegura que los enlaces se comporten como bloques para ocupar todo el ancho */
+  text-align: center; /* Centra el texto en el botón */
+}
+
+button {
+  padding: 10px;
+  margin: 10px 0; /* Añade margen solo en la parte superior e inferior */
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  background-color: #007BFF;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+.user-profile a button {
+  padding: 10px 20px; /* Ajusta el padding para que sea igual en todos los botones */
+}
+
+
+
+

@@ -6,6 +6,7 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class AuthService {
   private user: any
+  private status: any
 
   constructor() { }
 
