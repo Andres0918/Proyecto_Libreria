@@ -11,6 +11,7 @@ import { CatalogoComponent } from './paginas/catalogo/catalogo.component';
 import { CuentaComponent } from './paginas/cuenta/cuenta.component';
 import { canActivate, redirectUnauthorizedTo } from '@angular/fire/auth-guard'
 import { AuthGuard } from './auth.guard';
+import { ListUsersComponent } from './paginas/list-users/list-users.component';
 
 
 
@@ -25,5 +26,6 @@ export const routes: Routes = [
     { path:"cuenta", component: CuentaComponent, ...canActivate(()=> redirectUnauthorizedTo(['login'])) },
     { path:"mision", component: MisionComponent },
     { path:"vision", component: VisionComponent },
-    { path:"catalogo", component: CatalogoComponent}
+    { path:"catalogo", component: CatalogoComponent},
+    { path:"list-users", component: ListUsersComponent},
 ];
