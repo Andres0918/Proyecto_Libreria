@@ -10,6 +10,7 @@ import { VisionComponent } from './paginas/vision/vision.component';
 import { CatalogoComponent } from './paginas/catalogo/catalogo.component';
 import { CuentaComponent } from './paginas/cuenta/cuenta.component';
 import { canActivate, redirectUnauthorizedTo } from '@angular/fire/auth-guard'
+import { AuthGuard } from './auth.guard';
 
 
 
@@ -19,7 +20,7 @@ export const routes: Routes = [
     { path:"inicio", component: InicioComponent },
     { path:"registro", component: RegistroComponent},
     { path:"historia", component: HistoriaComponent },
-    { path:"biblioteca", component: BibliotecaComponent, ...canActivate(()=> redirectUnauthorizedTo(['login'])) },
+    { path:"biblioteca", component: BibliotecaComponent, canActivate: [AuthGuard]},
     { path:"userinfo", component: UserinfoComponent, ...canActivate(()=> redirectUnauthorizedTo(['login'])) },
     { path:"cuenta", component: CuentaComponent, ...canActivate(()=> redirectUnauthorizedTo(['login'])) },
     { path:"mision", component: MisionComponent },

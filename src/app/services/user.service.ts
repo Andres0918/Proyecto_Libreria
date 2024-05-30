@@ -1,7 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Auth, createUserWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, signInWithEmailAndPassword, signOut, updateProfile } from '@angular/fire/auth';
-import { Firestore, doc, updateDoc } from '@angular/fire/firestore';
+import { Firestore, doc, docData, updateDoc } from '@angular/fire/firestore';
 import { addDoc, collection, deleteDoc, getDocs, query, where } from 'firebase/firestore';
+import { from, Observable, of } from 'rxjs';
+import { map, catchError } from 'rxjs/operators';
+
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +24,6 @@ export class UserService {
 
   login(email: any, password: any){
     return signInWithEmailAndPassword(this.auth, email, password)
-
   }
 
   loginGoogle(){
@@ -41,15 +43,15 @@ export class UserService {
     updateDoc(userRef,{email: email, role: newRole})
   }
 
-  async getUserRoleByEmail(email: string): Promise<string | null> {
-    const usersRef = collection(this.firestore, 'usuarios');
-    const q = query(usersRef, where('email', '==', email));
-    const querySnapshot = await getDocs(q);
-    let role = null;
-    querySnapshot.forEach(doc => {
-      const data = doc.data();
-      role = data['role'];
-    });
-    return role;
+  getRoleByEmail(email: any): Observable<any> {
+    const usuariosRef = collection(this.firestore, 'usuarios');
+    const q = query(usuariosRef, where('email', '==', email));
+    return from(getDocs(q)).pipe(
+      map(querySnapshot => {
+        const doc = querySnapshot.docs[0];
+        return doc ? doc.data()['role'] as string : null; // Cambiado a notación de corchetes
+      })
+    );
   }
+
 }

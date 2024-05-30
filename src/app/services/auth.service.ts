@@ -17,4 +17,12 @@ export class AuthService {
   getUser(){
     return this.user
   }
+
+  setRole(role: any){
+    this.status = role
+  }
+
+  getStatus(){
+    return this.status
+  }
 }
