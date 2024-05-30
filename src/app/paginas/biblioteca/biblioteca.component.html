@@ -1,5 +1,7 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
 <main class="contenedor">
-    <h1>ADMINISRAR PRODUCTOS</h1>
+    <h1>ADMINISTRAR PRODUCTOS</h1>
     <form [formGroup]="formulario" (ngSubmit)="onSubmit()">
         <div class="mb-3">
             <label class="form-label">Nombre</label><br>
@@ -30,8 +32,8 @@
                 <p>Autor: {{libro.autor}}</p>
                 <h5>$ {{libro.precio}}</h5>
             </div>
-            <button class="btn-editar" (click)="edit(libro)">Editar</button>
-            <button class="btn-eliminar" (click)="delete(libro)">Borrar</button>
+            <button class="btn-editar" (click)="edit(libro)"><i class="fas fa-pencil-alt"></i> Editar</button>
+            <button class="btn-eliminar" (click)="delete(libro)"><i class="fas fa-trash-alt"></i> Borrar</button>
         </div>
     </div>
 </main>
