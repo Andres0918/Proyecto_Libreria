@@ -1,15 +1,18 @@
 import { Injectable } from '@angular/core';
 import { Auth, createUserWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, signInWithEmailAndPassword, signOut, updateProfile } from '@angular/fire/auth';
-import { Firestore, doc, docData, updateDoc } from '@angular/fire/firestore';
+import { Firestore, collectionData, doc, docData, updateDoc } from '@angular/fire/firestore';
 import { addDoc, collection, deleteDoc, getDocs, query, where } from 'firebase/firestore';
 import { from, Observable, of } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
+import { user } from '../domain/user';
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
+
+  private usuarios= collection(this.firestore, 'usuarios');
 
   constructor(
     private auth: Auth,
@@ -53,5 +56,17 @@ export class UserService {
       })
     );
   }
+
+  getUsuarios(): Observable<user[]> {
+    return collectionData(this.usuarios, { idField: 'uid' }) as Observable<user[]>;
+  }
+
+  updateUsuario(uid: string, data: Partial<user>): Promise<void> {
+    const usuarioDoc = doc(this.firestore, `usuarios/${uid}`);
+    return updateDoc(usuarioDoc, data);
+  }
+
+
+
 
 }
