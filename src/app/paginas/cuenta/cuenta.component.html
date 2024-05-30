@@ -1,0 +1,10 @@
+<div class="user-profile">
+  <img src="{{photoURL}}" alt="Foto de perfil">
+  <div class="user-details">
+      <h2>{{ displayName }}</h2>
+      <p>{{ email }}</p>
+  </div>
+  <button (click)="logout()">Cerrar Sesión</button>
+  <a routerLink="../userinfo"><button>Editar Datos</button></a>
+  
+</div>

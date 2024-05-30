@@ -4,9 +4,11 @@ import { InicioComponent } from './paginas/inicio/inicio.component';
 import { RegistroComponent } from './paginas/registro/registro.component';
 import { HistoriaComponent } from './paginas/historia/historia.component';
 import { BibliotecaComponent } from './paginas/biblioteca/biblioteca.component';
+import { UserinfoComponent } from './paginas/userinfo/userinfo.component';
 import { MisionComponent } from './paginas/mision/mision.component';
 import { VisionComponent } from './paginas/vision/vision.component';
 import { CatalogoComponent } from './paginas/catalogo/catalogo.component';
+import { CuentaComponent } from './paginas/cuenta/cuenta.component';
 
 
 
@@ -14,10 +16,12 @@ export const routes: Routes = [
     {path: "", redirectTo: "inicio", pathMatch: "full"},
     { path:"login", component: LoginComponent },
     { path:"inicio", component: InicioComponent },
-    { path: "registro", component: RegistroComponent},
+    { path:"registro", component: RegistroComponent},
     { path:"historia", component: HistoriaComponent },
     { path:"mision", component: MisionComponent },
     { path:"vision", component: VisionComponent },
     { path:"biblioteca", component: BibliotecaComponent},
-    { path:"catalogo", component: CatalogoComponent}
+    { path:"catalogo", component: CatalogoComponent},
+    { path:"userinfo", component: UserinfoComponent},
+    { path:"cuenta", component: CuentaComponent},
 ];
