@@ -1,9 +1,15 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
 <main class="contenedor">
-    <h1>ADMINISRAR PRODUCTOS</h1>
+    <h1>ADMINISTRAR PRODUCTOS</h1>
     <form [formGroup]="formulario" (ngSubmit)="onSubmit()">
         <div class="mb-3">
             <label class="form-label">Nombre</label><br>
             <input type="text" class="form-control" formControlName="nombre">
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Autor</label><br>
+            <input type="text" class="form-control" formControlName="autor">
         </div>
         <div class="mb-3">
             <label class="form-label">Precio</label><br>
@@ -18,15 +24,16 @@
 
     <div class="libros">
         <div class="libro" *ngFor="let libro of libros">
-            <div class="info">
-                <h4>{{libro.nombre}}</h4>
-                <p>$ {{libro.precio}}</p>
-            </div>
             <div class="images">
                 <img [src]="libro.imagen" alt="{{libro.nombre}}">
             </div>
-            <button class="btn-editar" (click)="edit(libro)">Editar</button><br>
-            <button class="btn-eliminar" (click)="delete(libro)">Borrar</button>
+            <div class="info">
+                <h4>{{libro.nombre}}</h4>
+                <p>Autor: {{libro.autor}}</p>
+                <h5>$ {{libro.precio}}</h5>
+            </div>
+            <button class="btn-editar" (click)="edit(libro)"><i class="fas fa-pencil-alt"></i> Editar</button>
+            <button class="btn-eliminar" (click)="delete(libro)"><i class="fas fa-trash-alt"></i> Borrar</button>
         </div>
     </div>
 </main>

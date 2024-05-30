@@ -1,14 +1,28 @@
 .login-container {
-  max-width: 400px;
+  max-width: 700px;
   margin: 50px auto;
   padding: 20px;
   border: 1px solid #ccc;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  gap: 2rem;
+}
+
+.login-content {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.login-logo {
+  height: 350px;
+  max-width: 100%;
+  margin-bottom: 20px;
 }
 
 .form-group {
   margin-bottom: 15px;
+  flex-basis: 100%;
 }
 
 .form-group label {
@@ -60,4 +74,16 @@
 
 .register-link a:hover {
   text-decoration: underline;
+}
+
+@media screen and (max-width: 768px) {
+  .login-container {
+    max-width: 100%;
+    padding: 10px;
+  }
+
+  .login-logo {
+    margin-bottom: 10px;
+    height: 200px;
+  }
 }

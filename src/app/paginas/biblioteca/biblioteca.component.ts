@@ -3,8 +3,7 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { InformacionService } from '../../services/informacion.service';
 import Libro from '../../domain/libro';
 import { CommonModule } from '@angular/common';
-import { deleteObject, listAll, ref } from 'firebase/storage';
-import { Storage, getDownloadURL, uploadBytes } from '@angular/fire/storage';
+import { Storage, getDownloadURL, uploadBytes, listAll, deleteObject, ref } from '@angular/fire/storage';
 
 @Component({
   selector: 'app-biblioteca',
@@ -27,6 +26,7 @@ export class BibliotecaComponent implements OnInit {
     this.formulario = new FormGroup({
       nombre: new FormControl(),
       precio: new FormControl(),
+      autor: new FormControl(),
       imagen: new FormControl()
     });
     this.images = [];
@@ -44,12 +44,13 @@ export class BibliotecaComponent implements OnInit {
     const libro: Libro = {
       nombre: this.formulario.get('nombre')?.value,
       precio: this.formulario.get('precio')?.value,
+      autor: this.formulario.get('autor')?.value,
       imagen: this.formulario.get('imagen')?.value
     };
 
     if (this.libroEnEdicion) {
       // Actualizar libro existente
-      libro.id = this.libroEnEdicion.id; // Asegúrate de que 'id' es una propiedad de 'Libro'
+      libro.id = this.libroEnEdicion.id;
       const response = await this.informacionService.updateLibro(libro);
       console.log(response);
     } else {
@@ -109,6 +110,7 @@ export class BibliotecaComponent implements OnInit {
     this.formulario.patchValue({
       nombre: libro.nombre,
       precio: libro.precio,
+      autor: libro.autor,
       imagen: libro.imagen
     });
   }
