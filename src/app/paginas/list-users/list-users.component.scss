@@ -1,127 +1,141 @@
+/* Estilos generales para el contenedor y títulos */
 .contenedor {
-    max-width: 120rem;
-    margin: 0 auto;
-  }
-  
-  /* GRID */
-  .grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 2rem;
-  }
-  
-  @media (min-width: 768px) {
-    .grid {
-      grid-template-columns: repeat(3, 1fr);
-    }
-  }
-  
-  /* FORMULARIO */
-  form {
-    background-color: #f3f3f3; /* Fondo gris claro */
-    padding: 2rem;
-    border-radius: 1rem;
-    margin-bottom: 2rem;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra ligera */
-  }
-  
-  input {
-    border: 1px solid #ccc; /* Borde gris */
-    border-radius: 0.5rem;
-    padding: 0.5rem;
-    width: 100%;
-    margin-bottom: 1rem;
-    box-sizing: border-box;
-  }
-  
-  input[type="submit"] {
-    background-color: #4CAF50; /* Verde */
-    color: white;
-    border: none;
-    padding: 0.75rem;
-    border-radius: 0.5rem;
-    cursor: pointer;
-  }
-  
-  input[type="submit"]:hover {
-    background-color: #45a049; /* Verde más oscuro al pasar el ratón */
-  }
-  
-  /* LIBROS */
-  .libros {
-    text-align: center;
-    padding: 1rem;
-    background-color: #f3f3f3; /* Fondo gris claro */
-    border-radius: 2rem;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 2rem;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  .libro {
-    background-color: #fff; /* Fondo blanco */
-    border-radius: 1rem;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra ligera */
-    padding: 1rem;
-    max-width: 300px;
-    text-align: center;
-    justify-content: center;
-  }
-  
-  .images {
-    background-color: #f0f0f0; /* Fondo gris */
-    padding: 1rem;
-    width: 200px;
-    height: 300px;
-    overflow: hidden;
-    border-radius: 1rem;
-  }
-  
-  .images img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 1rem;
-  }
-  
-  .info h4 {
-    font-size: 1.2rem;
-    margin: 0.5rem 0;
-  }
-  
-  .info p {
-    font-size: 1rem;
-    margin: 0.5rem 0;
-  }
-  
-  .info h5 {
-    font-size: 1.1rem;
-    color: #4a90e2; /* Azul */
-    margin: 0.5rem 0;
-  }
-  
-  button {
-    border: none;
-    color: #fff;
-    padding: 0.5rem 1rem;
-    border-radius: 0.5rem;
-    cursor: pointer;
-    margin-top: 0.5rem;
-    transition: background-color 0.3s ease;
-  }
-  
-  .btn-editar {
-    background-color: #f5a623;
-    margin-right: 2rem;
-  }
-  
-  .btn-eliminar {
-    background-color: #d9534f;
-  }
-  
-  button:hover {
-    opacity: 0.8;
-  }
-  
+  max-width: 800px;
+  margin: auto;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+h1 {
+  color: #333;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+/* Estilos para formularios */
+form {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.mb-3 {
+  margin-bottom: 16px;
+}
+
+.form-label {
+  font-size: 16px;
+  color: #555;
+  margin-bottom: 8px;
+}
+
+p {
+  margin: 4px 0;
+  font-size: 14px;
+  color: #666;
+}
+
+/* Estilos para el switch */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 46px; 
+  height: 22px;
+  margin-left: 10px; /* Espacio después de la etiqueta */
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  transition: .4s;
+  border-radius: 22px;
+}
+
+.slider.round {
+  border-radius: 22px;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 18px;
+  left: 2px;
+  bottom: 2px;
+  background-color: white;
+  transition: .4s;
+  border-radius: 50%;
+}
+
+input:checked + .slider {
+  background-color: #2196F3;
+}
+
+input:checked + .slider:before {
+  transform: translateX(24px);
+}
+
+/* Botón de acción del formulario */
+.btn-info {
+  background-color: #17a2b8;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  cursor: pointer;
+  border-radius: 5px;
+  font-size: 16px;
+  display: block;
+  width: 100%;
+}
+
+.btn-info:hover {
+  background-color: #138496;
+}
+
+/* Estilos para la lista de usuarios */
+.usuarios {
+  margin-top: 20px;
+}
+
+.usuario {
+  background-color: #fff;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.btn-editar {
+  background-color: #ffc107;
+  color: black;
+  border: none;
+  padding: 8px 12px;
+  cursor: pointer;
+  border-radius: 5px;
+  font-size: 14px;
+}
+
+.btn-editar:hover {
+  background-color: #e0a800;
+}
+
+.fas {
+  margin-right: 5px;
+}

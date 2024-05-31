@@ -23,6 +23,7 @@ export class HeaderComponent {
     const loggetInLink = document.getElementById('login')
     const adminLink = document.getElementById('admin')
     const commonLink = document.getElementById('common')
+    const adminLink2 = document.getElementById('admin2')
 
     onAuthStateChanged(this.auth, async (user) => {
       console.log('usuario xd: ',user)
@@ -30,12 +31,14 @@ export class HeaderComponent {
         this.userServices.getRoleByEmail(this.auth.currentUser.email).subscribe(
           role => {
             console.log('Rol: ', role)
-            if(adminLink && commonLink){
+            if(adminLink && commonLink && adminLink2){
               if(role === 'admin'){
                 adminLink.style.display='block'
+                adminLink2.style.display='block'
                 commonLink.style.display='none'
               }else{
                 adminLink.style.display='none'
+                adminLink2.style.display='none'
                 commonLink.style.display='block'
               }
             }
@@ -43,15 +46,17 @@ export class HeaderComponent {
           error => {
             console.error('Error fetching role', error);
             this.role = null;
-            if(adminLink && commonLink){
+            if(adminLink && commonLink && adminLink2){
               adminLink.style.display='none'
+              adminLink2.style.display='none'
               commonLink.style.display='block'
             }
           }
         );
       }else{
-        if(adminLink && commonLink){
+        if(adminLink && commonLink && adminLink2){
           adminLink.style.display='none'
+          adminLink2.style.display='none'
           commonLink.style.display='block'
         }
       }

@@ -34,11 +34,10 @@ export class AuthGuard implements CanActivate {
           return of(false);
         })
       );
-
-      
     }else{
-      alert('Acceso denegado')
-      this.router.navigate(['inicio']);
+      alert('Inicie sesion')
+      console.log('aaa')
+      this.router.navigate(['login']);
       return false;
     }
   }

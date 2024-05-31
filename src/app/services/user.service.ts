@@ -19,32 +19,58 @@ export class UserService {
     private firestore: Firestore
   ) { }
 
+
+  
   register(email:any, pasword:any){
     const userRef = collection(this.firestore, 'usuarios')
     addDoc(userRef, {email: email, role: 'common'})
     return createUserWithEmailAndPassword(this.auth, email, pasword)
   }
 
+
+
   login(email: any, password: any){
     return signInWithEmailAndPassword(this.auth, email, password)
   }
+
+
 
   loginGoogle(){
     return signInWithPopup(this.auth, new GoogleAuthProvider());
   }
 
+
+
   logOut(){
     return signOut(this.auth)
   }
+
+
 
   updateProfile(user: any, displayName: any, picture: any){
     return updateProfile(user, {displayName: displayName, photoURL: picture})
   }
 
-  updateRole(email: any, newRole: any){
-    const userRef = doc(this.firestore, `usuarios/${email}`);
-    updateDoc(userRef,{email: email, role: newRole})
+
+
+  async updateRole(email: any, newRole: any){
+    const usuariosRef = collection(this.firestore, 'usuarios');
+    const q = query(usuariosRef, where('email', '==', email));
+
+    const querySnapshot = await getDocs(q);
+    if (querySnapshot.empty) {
+      console.log('No matching documents.');
+      return;
+    }
+
+    querySnapshot.forEach(async (doc) => {
+      const userRef = doc.ref; // Referencia al documento
+      await updateDoc(userRef, { role: newRole });
+      console.log('Document updated with ID: ', userRef.id);
+    });
   }
+
+
 
   getRoleByEmail(email: any): Observable<any> {
     const usuariosRef = collection(this.firestore, 'usuarios');
