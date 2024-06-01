@@ -27,5 +27,5 @@ export const routes: Routes = [
     { path:"mision", component: MisionComponent },
     { path:"vision", component: VisionComponent },
     { path:"catalogo", component: CatalogoComponent},
-    { path:"usuarios", component: ListUsersComponent}
+    { path:"usuarios", component: ListUsersComponent, canActivate: [AuthGuard]}
 ];
