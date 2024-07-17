@@ -12,6 +12,7 @@ import { CuentaComponent } from './paginas/cuenta/cuenta.component';
 import { canActivate, redirectUnauthorizedTo } from '@angular/fire/auth-guard'
 import { AuthGuard } from './auth.guard';
 import { ListUsersComponent } from './paginas/list-users/list-users.component';
+import { HistorialComponent } from './paginas/historial/historial.component';
 
 
 
@@ -27,5 +28,6 @@ export const routes: Routes = [
     { path:"mision", component: MisionComponent },
     { path:"vision", component: VisionComponent },
     { path:"catalogo", component: CatalogoComponent},
-    { path:"usuarios", component: ListUsersComponent, canActivate: [AuthGuard]}
+    { path:"usuarios", component: ListUsersComponent, canActivate: [AuthGuard]},
+    { path:"historial", component: HistorialComponent},
 ];
