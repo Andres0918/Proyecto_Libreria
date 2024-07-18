@@ -1,12 +1,14 @@
-import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Component, Input } from '@angular/core';
+import Libro from '../../domain/libro';
 
 @Component({
   selector: 'app-reserva',
   standalone: true,
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './reserva.component.html',
-  styleUrl: './reserva.component.scss'
+  styleUrls: ['./reserva.component.scss']
 })
 export class ReservaComponent {
-
+  @Input() libroSeleccionado!: Libro;
 }

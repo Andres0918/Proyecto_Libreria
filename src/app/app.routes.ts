@@ -13,6 +13,7 @@ import { canActivate, redirectUnauthorizedTo } from '@angular/fire/auth-guard'
 import { AuthGuard } from './auth.guard';
 import { ListUsersComponent } from './paginas/list-users/list-users.component';
 import { HistorialComponent } from './paginas/historial/historial.component';
+import { ReservaComponent } from './paginas/reserva/reserva.component';
 
 
 
@@ -30,4 +31,5 @@ export const routes: Routes = [
     { path:"catalogo", component: CatalogoComponent},
     { path:"usuarios", component: ListUsersComponent, canActivate: [AuthGuard]},
     { path:"historial", component: HistorialComponent},
+    { path:"reserva", component: ReservaComponent},
 ];
