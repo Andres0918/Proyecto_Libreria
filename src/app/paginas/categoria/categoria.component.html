@@ -1,0 +1,11 @@
+<div class="filtro-container">
+    <button class="volver-button" (click)="volver()">Volver</button>
+    <div class="filtros">
+      <div class="filtro" *ngFor="let filtro of filtros">
+        <img [src]="filtro.imagen" alt="{{filtro.titulo}}">
+        <h3>{{filtro.titulo}}</h3>
+        <p>{{filtro.descripcion}}</p>
+      </div>
+    </div>
+  </div>
+  

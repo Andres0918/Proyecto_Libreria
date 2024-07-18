@@ -14,6 +14,7 @@ import { AuthGuard } from './auth.guard';
 import { ListUsersComponent } from './paginas/list-users/list-users.component';
 import { HistorialComponent } from './paginas/historial/historial.component';
 import { ReservaComponent } from './paginas/reserva/reserva.component';
+import { CategoriaComponent } from './paginas/categoria/categoria.component';
 
 
 
@@ -32,4 +33,5 @@ export const routes: Routes = [
     { path:"usuarios", component: ListUsersComponent, canActivate: [AuthGuard]},
     { path:"historial", component: HistorialComponent},
     { path:"reserva", component: ReservaComponent},
+    { path:"categoria", component: CategoriaComponent},
 ];
