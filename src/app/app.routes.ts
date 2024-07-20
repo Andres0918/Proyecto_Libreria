@@ -31,7 +31,7 @@ export const routes: Routes = [
     { path:"vision", component: VisionComponent },
     { path:"catalogo", component: CatalogoComponent},
     { path:"usuarios", component: ListUsersComponent, canActivate: [AuthGuard]},
-    { path:"historial", component: HistorialComponent, ...canActivate(()=> redirectUnauthorizedTo(['login'])) },
+    { path:"historial", component: HistorialComponent, canActivate: [AuthGuard]},
     { path:"reserva", component: ReservaComponent, ...canActivate(()=> redirectUnauthorizedTo(['login']))},
     { path:"categoria", component: CategoriaComponent},
 ];
