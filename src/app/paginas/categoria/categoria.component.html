@@ -1,11 +1,37 @@
 <div class="filtro-container">
-    <button class="volver-button" (click)="volver()">Volver</button>
-    <div class="filtros">
-      <div class="filtro" *ngFor="let filtro of filtros">
-        <img [src]="filtro.imagen" alt="{{filtro.titulo}}">
-        <h3>{{filtro.titulo}}</h3>
-        <p>{{filtro.descripcion}}</p>
-      </div>
+  <a routerLink="/catalogo"><button class="volver-button">Volver</button></a>
+  <div class="filtros">
+    <div class="filtro" *ngFor="let filtro of filtros" (click)="seleccionarFiltro(filtro)">
+      <img [src]="filtro.imagen" alt="{{filtro.titulo}}">
+      <h3>{{filtro.titulo}}</h3>
+      <p>{{filtro.descripcion}}</p>
     </div>
   </div>
-  
+</div>
+
+<div *ngIf="filtroSeleccionado">
+  <h2>{{ filtroSeleccionado.titulo }}</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th *ngIf="mostrarAcciones()">Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <ng-container *ngFor="let item of items">
+        <tr>
+          <td>{{ item.nombre }}</td>
+          <td *ngIf="mostrarAcciones()"><button (click)="toggleLibros(item)">▼</button></td>
+        </tr>
+        <tr *ngIf="item.mostrarLibros">
+          <td colspan="2">
+            <ul>
+              <li *ngFor="let libro of item.libros">{{ libro }}</li>
+            </ul>
+          </td>
+        </tr>
+      </ng-container>
+    </tbody>
+  </table>
+</div>

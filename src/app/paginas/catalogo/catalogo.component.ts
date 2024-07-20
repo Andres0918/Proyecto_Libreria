@@ -2,12 +2,13 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import Libro from '../../domain/libro';
 import { InformacionService } from '../../services/informacion.service';
+import { RouterLink } from '@angular/router';
 
 
 @Component({
   selector: 'app-catalogo',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink],
   templateUrl: './catalogo.component.html',
   styleUrl: './catalogo.component.scss'
 })

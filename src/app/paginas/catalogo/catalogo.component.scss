@@ -84,9 +84,9 @@
   .search-container {
   display: flex;
   align-items: center;
-  background-color: #2d3e50;
+  background-color: #f0f0f0;
   padding: 1rem;
-  border-radius: 1rem;
+  border-radius: 1rem 1rem 0 0;
   max-width: 600px;
   margin: 0 auto;
 }
@@ -114,8 +114,8 @@
   border: none;
   border-radius: 1rem;
   font-size: 1rem;
-  color: #b3b3b3;
-  background-color: #3e4e5e;
+  color: white;
+  background-color: #3a524e;
 }
 
 .search-input::placeholder {
