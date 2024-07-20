@@ -3,13 +3,14 @@ import { Firestore, collectionData, doc, updateDoc } from '@angular/fire/firesto
 import Libro from '../domain/libro';
 import { addDoc, collection, deleteDoc } from 'firebase/firestore';
 import { Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
 })
 export class InformacionService {
 
-  constructor(private firestore: Firestore) { }
+  constructor(private firestore: Firestore, private http: HttpClient) { }
 
   addLibro(libro: Libro) {
     const libroRef = collection(this.firestore, 'libros');
