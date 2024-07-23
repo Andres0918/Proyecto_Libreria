@@ -1,8 +1,9 @@
 <main class="contenedor">
     <h1>CATALOGO</h1>
     <div class="search-container">
-        <a routerLink="/categoria"><button class="category-button">Categorías</button></a>
-        <input type="text" placeholder="Buscar" class="search-input">
+        <a routerLink="/categoria"><button class="category-button">Filtros</button></a>
+        <input type="text" placeholder="Buscar" class="search-input" (keyup.enter)="filtro()" [(ngModel)]="nombre">
+        <button class="buscar" (click)="filtro()">Buscar</button>
     </div>
     <div class="libros">
         <div class="libro" *ngFor="let libro of libros">

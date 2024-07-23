@@ -29,9 +29,9 @@ export const routes: Routes = [
     { path:"cuenta", component: CuentaComponent, ...canActivate(()=> redirectUnauthorizedTo(['login'])) },
     { path:"mision", component: MisionComponent },
     { path:"vision", component: VisionComponent },
-    { path:"catalogo", component: CatalogoComponent},
+    { path:"catalogo", component: CatalogoComponent, ...canActivate(()=>redirectUnauthorizedTo(['login']))},
     { path:"usuarios", component: ListUsersComponent, canActivate: [AuthGuard]},
     { path:"historial", component: HistorialComponent, canActivate: [AuthGuard]},
     { path:"reserva", component: ReservaComponent, ...canActivate(()=> redirectUnauthorizedTo(['login']))},
-    { path:"categoria", component: CategoriaComponent},
+    { path:"categoria", component: CategoriaComponent}
 ];
