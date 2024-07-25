@@ -4,6 +4,7 @@ import Libro from '../domain/libro';
 import { addDoc, collection, deleteDoc } from 'firebase/firestore';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
+import { enviroment } from '../enviroments/enviroment';
 
 @Injectable({
   providedIn: 'root'
@@ -18,8 +19,13 @@ export class InformacionService {
   }
 
   getLibros(): Observable<Libro[]> {
-    const libroRef = collection(this.firestore, 'libros');
-    return collectionData(libroRef, { idField: 'id' }) as Observable<Libro[]>;
+    let url = enviroment.WS_PATH + "/libros"
+    return this.http.get<any>(url)
+  }
+
+  getlibro(nombre: any): Observable<Libro>{
+    let url = enviroment.WS_PATH + "/libros/"+ nombre
+    return this.http.get<any>(url)
   }
 
   deleteLibro(libro: Libro) {

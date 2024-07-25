@@ -6,6 +6,11 @@
                 <a (click)="filtrarPorCategoria(categoria)">{{ categoria.nombre }}</a>
             </li>
         </ul>
+    <h1>CATALOGO</h1>
+    <div class="search-container">
+        <a routerLink="/categoria"><button class="category-button">Filtros</button></a>
+        <input type="text" placeholder="Buscar" class="search-input" (keyup.enter)="filtro()" [(ngModel)]="nombre">
+        <button class="buscar" (click)="filtro()">Buscar</button>
     </div>
     <div class="contenido">
         <div class="search-container">
@@ -25,5 +30,6 @@
                 <a routerLink="/reserva"><button class="btn-reservar"><i class="fas fa-pencil-alt"></i>Reservar</button></a>
             </div>
         </div>
+    </div>
     </div>
 </main>
