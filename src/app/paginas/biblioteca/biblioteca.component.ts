@@ -17,7 +17,14 @@ export class BibliotecaComponent implements OnInit {
   images: string[];
   formulario: FormGroup;
   libros!: Libro[];
+  librosFiltrados!: Libro[];
   libroEnEdicion: Libro | null = null;
+  categorias = [
+    { nombre: 'Ficción' },
+    { nombre: 'No Ficción' },
+    { nombre: 'Ciencia' },
+    { nombre: 'Historia' }
+  ];
 
   constructor(
     private informacionService: InformacionService, 
@@ -35,6 +42,7 @@ export class BibliotecaComponent implements OnInit {
   ngOnInit(): void {
     this.informacionService.getLibros().subscribe(libros => {
       this.libros = libros;
+      this.librosFiltrados = libros; // Inicialmente mostrar todos los libros
     });
 
     this.getImages();
@@ -61,7 +69,10 @@ export class BibliotecaComponent implements OnInit {
 
     this.formulario.reset();
     this.libroEnEdicion = null; // Reiniciar el libro en edición
-    this.getImages();
+    this.informacionService.getLibros().subscribe(libros => {
+      this.libros = libros;
+      this.librosFiltrados = libros; // Reiniciar la lista filtrada
+    });
   }
 
   async delete(libro: Libro) {
@@ -74,6 +85,11 @@ export class BibliotecaComponent implements OnInit {
         .then(() => console.log("Imagen eliminada de Firebase Storage"))
         .catch(error => console.log("Error al eliminar la imagen de Firebase Storage", error));
     }
+
+    this.informacionService.getLibros().subscribe(libros => {
+      this.libros = libros;
+      this.librosFiltrados = libros; // Reiniciar la lista filtrada
+    });
   }
 
   uploadImage($event: any) {
@@ -103,6 +119,10 @@ export class BibliotecaComponent implements OnInit {
         }
       })
       .catch(error => console.log(error));
+  }
+
+  filtrarPorCategoria(categoria: any): void {
+    this.librosFiltrados = this.libros.filter(libro => categoria.nombre);
   }
 
   edit(libro: Libro) {
