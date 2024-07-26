@@ -4,4 +4,5 @@ export default interface Libro{
     precio: string;
     autor: string;
     imagen: string;
+
 }
