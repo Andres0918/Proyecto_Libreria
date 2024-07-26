@@ -14,8 +14,8 @@ export class InformacionService {
   constructor(private firestore: Firestore, private http: HttpClient) { }
 
   addLibro(libro: Libro) {
-    const libroRef = collection(this.firestore, 'libros');
-    return addDoc(libroRef, libro);
+    let url = enviroment.WS_PATH + "/libros"
+    return this.http.post<any>(url, libro)
   }
 
   getLibros(): Observable<Libro[]> {

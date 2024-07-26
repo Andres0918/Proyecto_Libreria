@@ -24,6 +24,7 @@ export class HeaderComponent {
     const adminLink = document.getElementById('admin')
     const commonLink = document.getElementById('common')
     const adminLink2 = document.getElementById('admin2')
+    const adminLink3 = document.getElementById('admin3')
 
     onAuthStateChanged(this.auth, async (user) => {
       console.log('usuario xd: ',user)
@@ -31,15 +32,17 @@ export class HeaderComponent {
         this.userServices.getRoleByEmail(this.auth.currentUser.email).subscribe(
           role => {
             console.log('Rol: ', role)
-            if(adminLink && commonLink && adminLink2){
+            if(adminLink && commonLink && adminLink2 && adminLink3){
               if(role === 'admin'){
                 adminLink.style.display='block'
                 adminLink2.style.display='block'
                 commonLink.style.display='none'
+                adminLink3.style.display='block'
               }else{
                 adminLink.style.display='none'
                 adminLink2.style.display='none'
                 commonLink.style.display='block'
+                adminLink3.style.display='none'
               }
             }
           },

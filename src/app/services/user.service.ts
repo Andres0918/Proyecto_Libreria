@@ -5,6 +5,8 @@ import { addDoc, collection, deleteDoc, getDocs, query, where } from 'firebase/f
 import { from, Observable, of } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 import { user } from '../domain/user';
+import { enviroment } from '../enviroments/enviroment';
+import { HttpClient } from '@angular/common/http';
 
 
 @Injectable({
@@ -14,20 +16,21 @@ export class UserService {
 
   private usuarios= collection(this.firestore, 'usuarios');
 
-  constructor(
-    private auth: Auth,
-    private firestore: Firestore
-  ) { }
+  constructor(private auth: Auth, private firestore: Firestore, private http: HttpClient) { }
 
-
+  agregarRol(email: any){
+    let url = enviroment.WS_PATH + "/usuarios"
+    let u = {'usuario': email, 'rol': 'common'}
+    return this.http.post<any>(url, u)
+  }
   
   register(email:any, pasword:any){
-    const userRef = collection(this.firestore, 'usuarios')
-    addDoc(userRef, {email: email, role: 'common'})
+    let u = this.agregarRol(email).subscribe(data =>{
+      u = data
+    })
+    console.log('xd', u)
     return createUserWithEmailAndPassword(this.auth, email, pasword)
   }
-
-
 
   login(email: any, password: any){
     return signInWithEmailAndPassword(this.auth, email, password)
