@@ -1,22 +1,22 @@
 <main class="contenedor">
-    <div class="filtro-container">
+    <h1>CATALOGO</h1>
+    <div class="search-container">
+        <button class="category-button" (click)="toggleFiltro()">Filtros</button>
+        <input type="text" placeholder="Buscar" class="search-input" (keyup.enter)="filtro()" [(ngModel)]="nombre">
+        <button class="buscar" (click)="filtro()">Buscar</button>
+    </div>
+    
+    <div *ngIf="mostrarFiltro" class="filtro-container">
         <h2>Categorías</h2>
         <ul class="categorias-lista">
             <li *ngFor="let categoria of categorias">
                 <a (click)="filtrarPorCategoria(categoria)">{{ categoria.nombre }}</a>
             </li>
         </ul>
-    <h1>CATALOGO</h1>
-    <div class="search-container">
-        <a routerLink="/categoria"><button class="category-button">Filtros</button></a>
-        <input type="text" placeholder="Buscar" class="search-input" (keyup.enter)="filtro()" [(ngModel)]="nombre">
-        <button class="buscar" (click)="filtro()">Buscar</button>
     </div>
+
+    
     <div class="contenido">
-        <div class="search-container">
-            <a routerLink="/categoria"><button class="category-button">Categorías</button></a>
-            <input type="text" placeholder="Buscar" class="search-input">
-        </div>
         <div class="libros">
             <div class="libro" *ngFor="let libro of librosFiltrados">
                 <div class="images">
@@ -30,6 +30,5 @@
                 <a routerLink="/reserva"><button class="btn-reservar"><i class="fas fa-pencil-alt"></i>Reservar</button></a>
             </div>
         </div>
-    </div>
     </div>
 </main>

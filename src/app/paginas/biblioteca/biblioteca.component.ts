@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { InformacionService } from '../../services/informacion.service';
 import Libro from '../../domain/libro';
+import Categoria from '../../domain/categoria'; // Asegúrate de tener este import
 import { CommonModule } from '@angular/common';
 import { Storage, getDownloadURL, uploadBytes, listAll, deleteObject, ref } from '@angular/fire/storage';
 
@@ -20,10 +21,10 @@ export class BibliotecaComponent implements OnInit {
   librosFiltrados!: Libro[];
   libroEnEdicion: Libro | null = null;
   categorias = [
-    { nombre: 'Ficción' },
-    { nombre: 'No Ficción' },
-    { nombre: 'Ciencia' },
-    { nombre: 'Historia' }
+    { nombre: 'Autores' },
+    { nombre: 'Titulos' },
+    { nombre: 'Disponibilidad' },
+    { nombre: 'Categoria' }
   ];
 
   constructor(
@@ -53,7 +54,9 @@ export class BibliotecaComponent implements OnInit {
       nombre: this.formulario.get('nombre')?.value,
       precio: this.formulario.get('precio')?.value,
       autor: this.formulario.get('autor')?.value,
-      imagen: this.formulario.get('imagen')?.value
+      imagen: this.formulario.get('imagen')?.value,
+      disponible: true, // Asignar un valor predeterminado
+      categoria: { nombre: 'Categoría predeterminada' } // Asignar una categoría predeterminada
     };
 
     if (this.libroEnEdicion) {
@@ -122,7 +125,38 @@ export class BibliotecaComponent implements OnInit {
   }
 
   filtrarPorCategoria(categoria: any): void {
-    this.librosFiltrados = this.libros.filter(libro => categoria.nombre);
+    switch (categoria.nombre) {
+      case 'Autores':
+        this.filtrarPorAutor();
+        break;
+      case 'Titulos':
+        this.filtrarPorTitulo();
+        break;
+      case 'Disponibilidad':
+        this.filtrarPorDisponibilidad();
+        break;
+      case 'Categoria':
+        this.filtrarPorCategoriaEspecifica();
+        break;
+      default:
+        this.librosFiltrados = this.libros;
+    }
+  }
+
+  filtrarPorAutor() {
+    this.librosFiltrados = this.libros.sort((a, b) => a.autor.localeCompare(b.autor));
+  }
+
+  filtrarPorTitulo() {
+    this.librosFiltrados = this.libros.sort((a, b) => a.nombre.localeCompare(b.nombre));
+  }
+
+  filtrarPorDisponibilidad() {
+    this.librosFiltrados = this.libros.filter(libro => libro.disponible);
+  }
+
+  filtrarPorCategoriaEspecifica() {
+    this.librosFiltrados = this.libros.filter(libro => libro.categoria.nombre === 'algunaCategoria');
   }
 
   edit(libro: Libro) {
