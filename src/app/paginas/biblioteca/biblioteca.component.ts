@@ -20,12 +20,17 @@ export class BibliotecaComponent implements OnInit {
   libros!: Libro[];
   librosFiltrados!: Libro[];
   libroEnEdicion: Libro | null = null;
-  categorias = [
+  categorias: Categoria[] = [
     { nombre: 'Autores' },
     { nombre: 'Titulos' },
     { nombre: 'Disponibilidad' },
     { nombre: 'Categoria' }
   ];
+  categoriasDisponibles: Categoria[] = []; // Para almacenar las categorías disponibles
+  filteredCategorias: Categoria[] = [];
+  autores: string[] = []; // Lista de autores
+  mostrarAutores = false;
+  mostrarCategorias = false;
 
   constructor(
     private informacionService: InformacionService, 
@@ -35,7 +40,9 @@ export class BibliotecaComponent implements OnInit {
       nombre: new FormControl(),
       precio: new FormControl(),
       autor: new FormControl(),
-      imagen: new FormControl()
+      imagen: new FormControl(),
+      disponible: new FormControl(true), // Predeterminado a verdadero
+      categoria: new FormControl('') // Campo de texto para la categoría
     });
     this.images = [];
   }
@@ -44,9 +51,48 @@ export class BibliotecaComponent implements OnInit {
     this.informacionService.getLibros().subscribe(libros => {
       this.libros = libros;
       this.librosFiltrados = libros; // Inicialmente mostrar todos los libros
+      this.autores = [...new Set(libros.map(libro => libro.autor))]; // Obtener lista única de autores
+      this.categoriasDisponibles = this.obtenerCategoriasDisponibles(libros); // Obtener lista única de categorías
     });
 
     this.getImages();
+  }
+
+  obtenerCategoriasDisponibles(libros: Libro[]): Categoria[] {
+    const categoriasUnicas = [...new Set(libros.map(libro => libro.categoria.nombre))];
+    return categoriasUnicas.map(nombre => ({ nombre }));
+  }
+
+  filterCategorias() {
+    const query = this.formulario.get('categoria')?.value.toLowerCase();
+    if (query) {
+      this.filteredCategorias = this.categoriasDisponibles.filter(cat => cat.nombre.toLowerCase().includes(query));
+    } else {
+      this.filteredCategorias = [];
+    }
+  }
+
+  selectCategoria(categoria: Categoria) {
+    this.formulario.patchValue({ categoria: categoria.nombre });
+    this.filteredCategorias = [];
+  }
+
+  toggleMostrarAutores() {
+    this.mostrarAutores = !this.mostrarAutores;
+  }
+
+  toggleMostrarCategorias() {
+    this.mostrarCategorias = !this.mostrarCategorias;
+  }
+
+  filtrarPorAutorEspecifico(autor: string): void {
+    this.librosFiltrados = this.libros.filter(libro => libro.autor === autor);
+    this.mostrarAutores = false;
+  }
+
+  filtrarPorCategoriaEspecifica(categoria: Categoria): void {
+    this.librosFiltrados = this.libros.filter(libro => libro.categoria.nombre === categoria.nombre);
+    this.mostrarCategorias = false;
   }
 
   async onSubmit() {
@@ -55,8 +101,8 @@ export class BibliotecaComponent implements OnInit {
       precio: this.formulario.get('precio')?.value,
       autor: this.formulario.get('autor')?.value,
       imagen: this.formulario.get('imagen')?.value,
-      disponible: true, // Asignar un valor predeterminado
-      categoria: { nombre: 'Categoría predeterminada' } // Asignar una categoría predeterminada
+      disponible: this.formulario.get('disponible')?.value,
+      categoria: { nombre: this.formulario.get('categoria')?.value }
     };
 
     if (this.libroEnEdicion) {
@@ -70,7 +116,10 @@ export class BibliotecaComponent implements OnInit {
       console.log(response);
     }
 
-    this.formulario.reset();
+    this.formulario.reset({
+      disponible: true,
+      categoria: ''
+    });
     this.libroEnEdicion = null; // Reiniciar el libro en edición
     this.informacionService.getLibros().subscribe(libros => {
       this.libros = libros;
@@ -127,7 +176,7 @@ export class BibliotecaComponent implements OnInit {
   filtrarPorCategoria(categoria: any): void {
     switch (categoria.nombre) {
       case 'Autores':
-        this.filtrarPorAutor();
+        this.toggleMostrarAutores();
         break;
       case 'Titulos':
         this.filtrarPorTitulo();
@@ -136,15 +185,11 @@ export class BibliotecaComponent implements OnInit {
         this.filtrarPorDisponibilidad();
         break;
       case 'Categoria':
-        this.filtrarPorCategoriaEspecifica();
+        this.toggleMostrarCategorias();
         break;
       default:
         this.librosFiltrados = this.libros;
     }
-  }
-
-  filtrarPorAutor() {
-    this.librosFiltrados = this.libros.sort((a, b) => a.autor.localeCompare(b.autor));
   }
 
   filtrarPorTitulo() {
@@ -155,17 +200,15 @@ export class BibliotecaComponent implements OnInit {
     this.librosFiltrados = this.libros.filter(libro => libro.disponible);
   }
 
-  filtrarPorCategoriaEspecifica() {
-    this.librosFiltrados = this.libros.filter(libro => libro.categoria.nombre === 'algunaCategoria');
-  }
-
   edit(libro: Libro) {
     this.libroEnEdicion = libro;
     this.formulario.patchValue({
       nombre: libro.nombre,
       precio: libro.precio,
       autor: libro.autor,
-      imagen: libro.imagen
+      imagen: libro.imagen,
+      disponible: libro.disponible,
+      categoria: libro.categoria.nombre
     });
   }
 }
