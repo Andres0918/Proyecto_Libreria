@@ -36,7 +36,7 @@
                     <p>Autor: {{libro.autor}}</p>
                     <h5>$ {{libro.precio}}</h5>
                 </div>
-                <a routerLink="/reserva"><button class="btn-reservar"><i class="fas fa-pencil-alt"></i>Reservar</button></a>
+                <button class="btn-reservar" (click)="seleccionarLibro(libro)"><i class="fas fa-pencil-alt"></i>Reservar</button>
             </div>
         </div>
     </div>

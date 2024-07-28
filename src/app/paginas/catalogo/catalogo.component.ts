@@ -1,9 +1,10 @@
 import { Component, OnInit, HostListener } from '@angular/core';
 import { InformacionService } from '../../services/informacion.service';
 import Libro from '../../domain/libro';
-import Categoria from '../../domain/categoria'; // Asegúrate de tener este import
+import Categoria from '../../domain/categoria'; 
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-catalogo',
@@ -23,20 +24,20 @@ export class CatalogoComponent implements OnInit {
     { nombre: 'Categoria' }
   ];
   autores: string[] = [];
-  categoriasDisponibles: Categoria[] = []; // Para almacenar las categorías disponibles
-  mostrarFiltro = true; // Mostrar por defecto
+  categoriasDisponibles: Categoria[] = [];
+  mostrarFiltro = true;
   mostrarAutores = false;
   mostrarCategorias = false;
   isSmallScreen = false;
 
-  constructor(private informacionService: InformacionService) { }
+  constructor(private informacionService: InformacionService, private router: Router) { }
 
   ngOnInit(): void {
     this.informacionService.getLibros().subscribe(libros => {
       this.libros = libros;
       this.librosFiltrados = libros;
-      this.autores = [...new Set(libros.map(libro => libro.autor))]; // Obtener lista única de autores
-      this.categoriasDisponibles = this.obtenerCategoriasDisponibles(libros); // Obtener lista única de categorías
+      this.autores = [...new Set(libros.map(libro => libro.autor))];
+      this.categoriasDisponibles = this.obtenerCategoriasDisponibles(libros);
     });
     this.checkScreenSize();
   }
@@ -54,7 +55,7 @@ export class CatalogoComponent implements OnInit {
   checkScreenSize(): void {
     this.isSmallScreen = window.innerWidth <= 768;
     if (!this.isSmallScreen) {
-      this.mostrarFiltro = true; // Mostrar filtro en pantallas grandes
+      this.mostrarFiltro = true;
     }
   }
 
@@ -67,13 +68,13 @@ export class CatalogoComponent implements OnInit {
   filtrarPorCategoria(categoria: any): void {
     switch (categoria.nombre) {
       case 'Autores':
-        this.mostrarAutores = !this.mostrarAutores; // Toggle autores
+        this.mostrarAutores = !this.mostrarAutores;
         break;
       case 'Disponibilidad':
         this.filtrarPorDisponibilidad();
         break;
       case 'Categoria':
-        this.mostrarCategorias = !this.mostrarCategorias; // Toggle categorías
+        this.mostrarCategorias = !this.mostrarCategorias;
         break;
       default:
         this.librosFiltrados = this.libros;
@@ -83,7 +84,7 @@ export class CatalogoComponent implements OnInit {
   filtrarPorAutor(autor: string): void {
     this.informacionService.getLibrosPorAutor(autor).subscribe(libros => {
       this.librosFiltrados = libros;
-      this.mostrarAutores = false; // Cerrar el desplegable después de seleccionar un autor
+      this.mostrarAutores = false;
     });
   }
 
@@ -96,7 +97,7 @@ export class CatalogoComponent implements OnInit {
   filtrarPorCategoriaEspecifica(categoria: Categoria): void {
     this.informacionService.getLibrosPorCategoria(categoria.nombre).subscribe(libros => {
       this.librosFiltrados = libros;
-      this.mostrarCategorias = false; // Cerrar el desplegable después de seleccionar una categoría
+      this.mostrarCategorias = false;
     });
   }
 
@@ -108,5 +109,9 @@ export class CatalogoComponent implements OnInit {
         this.librosFiltrados = [libros];
       });
     }
+  }
+
+  seleccionarLibro(libro: Libro): void {
+    this.router.navigate(['/reserva'], { state: { libroSeleccionado: libro } });
   }
 }
