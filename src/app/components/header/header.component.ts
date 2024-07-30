@@ -9,74 +9,77 @@ import { UserService } from '../../services/user.service';
   standalone: true,
   imports: [RouterLink],
   templateUrl: './header.component.html',
-  styleUrl: './header.component.scss'
+  styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent {
 
   role: string | null = null;
 
-
   constructor(private auth: Auth, private userServices: UserService){}
 
-  ngOnInit(){
-    const loggetOutLink = document.getElementById('logout')
-    const loggetInLink = document.getElementById('login')
-    const adminLink = document.getElementById('admin')
-    const commonLink = document.getElementById('common')
-    const adminLink2 = document.getElementById('admin2')
-    const adminLink3 = document.getElementById('admin3')
+  ngOnInit() {
+    const loggetOutLink = document.getElementById('logout');
+    const loggetInLink = document.getElementById('login');
+    const adminLink = document.getElementById('admin');
+    const commonLink = document.getElementById('common');
+    const adminLink2 = document.getElementById('admin2');
+    const adminLink3 = document.querySelectorAll<HTMLElement>('#admin3'); // Cambiado para múltiples elementos
 
     onAuthStateChanged(this.auth, async (user) => {
       console.log('usuario xd: ',user)
       if(user && user.email){
         this.userServices.getRoleByEmail(user.email).subscribe(
           role => {
-            console.log('Rol: ', role)
-            if(adminLink && commonLink && adminLink2 && adminLink3){
-              if(role === 'admin'){
-                adminLink.style.display='block'
-                adminLink2.style.display='block'
-                commonLink.style.display='none'
-                adminLink3.style.display='block'
-              }else{
-                adminLink.style.display='none'
-                adminLink2.style.display='none'
-                commonLink.style.display='block'
-                adminLink3.style.display='none'
+            console.log('Rol: ', role);
+            if (adminLink && commonLink && adminLink2 && adminLink3) {
+              if (role === 'admin') {
+                adminLink.style.display = 'block';
+                adminLink2.style.display = 'block';
+                commonLink.style.display = 'none';
+                adminLink3.forEach((link) => {
+                  link.style.display = 'block';
+                });
+              } else {
+                adminLink.style.display = 'none';
+                adminLink2.style.display = 'none';
+                commonLink.style.display = 'block';
+                adminLink3.forEach((link) => {
+                  link.style.display = 'none';
+                });
               }
             }
           },
           error => {
             console.error('Error fetching role', error);
             this.role = null;
-            if(adminLink && commonLink && adminLink2){
-              adminLink.style.display='none'
-              adminLink2.style.display='none'
-              commonLink.style.display='block'
+            if (adminLink && commonLink && adminLink2) {
+              adminLink.style.display = 'none';
+              adminLink2.style.display = 'none';
+              commonLink.style.display = 'block';
             }
           }
         );
-      }else{
-        if(adminLink && commonLink && adminLink2){
-          adminLink.style.display='none'
-          adminLink2.style.display='none'
-          commonLink.style.display='block'
+      } else {
+        if (adminLink && commonLink && adminLink2) {
+          adminLink.style.display = 'none';
+          adminLink2.style.display = 'none';
+          commonLink.style.display = 'block';
         }
       }
       
-      if(user){
-        if(loggetInLink && loggetOutLink){
-          loggetInLink.style.display = 'none'
-          loggetOutLink.style.display = 'block'
+      if (user) {
+        if (loggetInLink && loggetOutLink) {
+          loggetInLink.style.display = 'none';
+          loggetOutLink.style.display = 'block';
         }
-      }else{
-        if(loggetInLink && loggetOutLink){
-          loggetOutLink.style.display = 'none'
-          loggetInLink.style.display = 'block'
+      } else {
+        if (loggetInLink && loggetOutLink) {
+          loggetOutLink.style.display = 'none';
+          loggetInLink.style.display = 'block';
         }
       }      
     }, error => {
-      console.log('Error en el auth: ', error)
-    })
+      console.log('Error en el auth: ', error);
+    });
   }
 }

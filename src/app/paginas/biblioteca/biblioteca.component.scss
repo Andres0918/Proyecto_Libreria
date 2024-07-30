@@ -13,7 +13,7 @@ form {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra ligera */
 }
 
-input {
+input, select {
   border: 1px solid #ccc; /* Borde gris */
   border-radius: 0.5rem;
   padding: 0.5rem;
@@ -157,4 +157,40 @@ button:hover {
   .libros {
     flex-direction: column;
   }
+}
+
+/* Categoría Suggestions */
+.categoria-suggestions {
+  list-style-type: none;
+  padding: 0;
+  border: 1px solid #ccc;
+  max-height: 150px;
+  overflow-y: auto;
+  margin: 0;
+}
+
+.categoria-suggestions li {
+  padding: 0.5rem;
+  cursor: pointer;
+  background-color: #fff;
+}
+
+.categoria-suggestions li:hover {
+  background-color: #f0f0f0;
+}
+
+.autores-lista, .categorias-lista {
+  list-style-type: none;
+  padding: 0;
+  margin: 0 0 0 20px;
+}
+
+.autores-lista li, .categorias-lista li {
+  cursor: pointer;
+  margin: 5px 0;
+  text-align: left;
+}
+
+.autores-lista li:hover, .categorias-lista li:hover {
+  color: #005bb5;
 }

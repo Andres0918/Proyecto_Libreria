@@ -15,6 +15,7 @@ import { ListUsersComponent } from './paginas/list-users/list-users.component';
 import { HistorialComponent } from './paginas/historial/historial.component';
 import { ReservaComponent } from './paginas/reserva/reserva.component';
 import { CategoriaComponent } from './paginas/categoria/categoria.component';
+import { DevueltoComponent } from './paginas/devuelto/devuelto.component';
 
 
 
@@ -32,6 +33,7 @@ export const routes: Routes = [
     { path:"catalogo", component: CatalogoComponent, ...canActivate(()=>redirectUnauthorizedTo(['login']))},
     { path:"usuarios", component: ListUsersComponent, canActivate: [AuthGuard]},
     { path:"historial", component: HistorialComponent, canActivate: [AuthGuard]},
-    { path:"reserva", component: ReservaComponent, ...canActivate(()=> redirectUnauthorizedTo(['login']))},
-    { path:"categoria", component: CategoriaComponent}
+    { path:"reserva", component: ReservaComponent },
+    { path:"categoria", component: CategoriaComponent},
+    { path:"devuelto", component: DevueltoComponent}
 ];
