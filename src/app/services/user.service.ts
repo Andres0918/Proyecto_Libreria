@@ -75,14 +75,10 @@ export class UserService {
 
 
 
-  getRoleByEmail(email: any): Observable<any> {
-    const usuariosRef = collection(this.firestore, 'usuarios');
-    const q = query(usuariosRef, where('email', '==', email));
-    return from(getDocs(q)).pipe(
-      map(querySnapshot => {
-        const doc = querySnapshot.docs[0];
-        return doc ? doc.data()['role'] as string : null; // Cambiado a notación de corchetes
-      })
+  getRoleByEmail(email: string | null): Observable<string> {
+    const url = enviroment.WS_PATH+'/usuarios/'+email
+    return this.http.get<any>(url).pipe(
+      map(user => user.role)
     );
   }
 

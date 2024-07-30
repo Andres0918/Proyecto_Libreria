@@ -28,8 +28,8 @@ export class HeaderComponent {
 
     onAuthStateChanged(this.auth, async (user) => {
       console.log('usuario xd: ',user)
-      if(this.auth.currentUser?.email){
-        this.userServices.getRoleByEmail(this.auth.currentUser.email).subscribe(
+      if(user && user.email){
+        this.userServices.getRoleByEmail(user.email).subscribe(
           role => {
             console.log('Rol: ', role)
             if(adminLink && commonLink && adminLink2 && adminLink3){
