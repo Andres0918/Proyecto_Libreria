@@ -112,6 +112,7 @@ export class CatalogoComponent implements OnInit {
   }
 
   seleccionarLibro(libro: Libro): void {
+    console.log('Seleccionando libro:', libro);
     this.router.navigate(['/reserva'], { state: { libroSeleccionado: libro } });
   }
 }

@@ -1,6 +1,6 @@
 import Categoria from "./categoria";
 export default interface Libro{
-    id?: string;
+    codigo?: number;
     nombre: string;
     precio: string;
     autor: string;

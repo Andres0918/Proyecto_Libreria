@@ -2,9 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { InformacionService } from '../../services/informacion.service';
 import Libro from '../../domain/libro';
-import Categoria from '../../domain/categoria'; // Asegúrate de tener este import
+import Categoria from '../../domain/categoria';
 import { CommonModule } from '@angular/common';
-import { Storage, getDownloadURL, uploadBytes, listAll, deleteObject, ref } from '@angular/fire/storage';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-biblioteca',
@@ -15,7 +15,6 @@ import { Storage, getDownloadURL, uploadBytes, listAll, deleteObject, ref } from
 })
 export class BibliotecaComponent implements OnInit {
 
-  images: string[];
   formulario: FormGroup;
   libros!: Libro[];
   librosFiltrados!: Libro[];
@@ -26,36 +25,30 @@ export class BibliotecaComponent implements OnInit {
     { nombre: 'Disponibilidad' },
     { nombre: 'Categoria' }
   ];
-  categoriasDisponibles: Categoria[] = []; // Para almacenar las categorías disponibles
+  categoriasDisponibles: Categoria[] = [];
   filteredCategorias: Categoria[] = [];
-  autores: string[] = []; // Lista de autores
+  autores: string[] = [];
   mostrarAutores = false;
   mostrarCategorias = false;
 
-  constructor(
-    private informacionService: InformacionService, 
-    private storage: Storage
-  ) {
+  constructor(private informacionService: InformacionService) {
     this.formulario = new FormGroup({
       nombre: new FormControl(),
       precio: new FormControl(),
       autor: new FormControl(),
       imagen: new FormControl(),
-      disponible: new FormControl(true), // Predeterminado a verdadero
-      categoria: new FormControl('') // Campo de texto para la categoría
+      disponible: new FormControl(true),
+      categoria: new FormControl('')
     });
-    this.images = [];
   }
 
   ngOnInit(): void {
     this.informacionService.getLibros().subscribe(libros => {
       this.libros = libros;
-      this.librosFiltrados = libros; // Inicialmente mostrar todos los libros
-      this.autores = [...new Set(libros.map(libro => libro.autor))]; // Obtener lista única de autores
-      this.categoriasDisponibles = this.obtenerCategoriasDisponibles(libros); // Obtener lista única de categorías
+      this.librosFiltrados = libros;
+      this.autores = [...new Set(libros.map(libro => libro.autor))];
+      this.categoriasDisponibles = this.obtenerCategoriasDisponibles(libros);
     });
-
-    this.getImages();
   }
 
   obtenerCategoriasDisponibles(libros: Libro[]): Categoria[] {
@@ -97,6 +90,7 @@ export class BibliotecaComponent implements OnInit {
 
   async onSubmit() {
     const libro: Libro = {
+      codigo: this.libroEnEdicion ? this.libroEnEdicion.codigo : undefined,
       nombre: this.formulario.get('nombre')?.value,
       precio: this.formulario.get('precio')?.value,
       autor: this.formulario.get('autor')?.value,
@@ -105,99 +99,36 @@ export class BibliotecaComponent implements OnInit {
       categoria: { nombre: this.formulario.get('categoria')?.value }
     };
 
-    if (this.libroEnEdicion) {
-      // Actualizar libro existente
-      libro.id = this.libroEnEdicion.id;
-      const response = await this.informacionService.updateLibro(libro);
-      console.log(response);
-    } else {
-      // Crear nuevo libro
-      const response = await this.informacionService.addLibro(libro);
-      console.log(response);
-    }
+      try {
+        const response = await firstValueFrom(this.informacionService.updateLibro(libro));
+        console.log(response);
+      } catch (error) {
+        console.error('Error updating libro:', error);
+      }
+    
 
     this.formulario.reset({
       disponible: true,
       categoria: ''
     });
-    this.libroEnEdicion = null; // Reiniciar el libro en edición
+    this.libroEnEdicion = null;
     this.informacionService.getLibros().subscribe(libros => {
       this.libros = libros;
-      this.librosFiltrados = libros; // Reiniciar la lista filtrada
+      this.librosFiltrados = libros;
     });
   }
 
   async delete(libro: Libro) {
-    const response = await this.informacionService.deleteLibro(libro);
-    console.log(response);
-
-    if (libro.imagen) {
-      const imgRef = ref(this.storage, libro.imagen);
-      await deleteObject(imgRef)
-        .then(() => console.log("Imagen eliminada de Firebase Storage"))
-        .catch(error => console.log("Error al eliminar la imagen de Firebase Storage", error));
+    try {
+      const response = await firstValueFrom(this.informacionService.deleteLibro(libro.nombre));
+      console.log(response);
+      this.informacionService.getLibros().subscribe(libros => {
+        this.libros = libros;
+        this.librosFiltrados = libros;
+      });
+    } catch (error) {
+      console.error('Error deleting libro:', error);
     }
-
-    this.informacionService.getLibros().subscribe(libros => {
-      this.libros = libros;
-      this.librosFiltrados = libros; // Reiniciar la lista filtrada
-    });
-  }
-
-  uploadImage($event: any) {
-    const file = $event.target.files[0];
-    console.log(file);
-
-    const imgRef = ref(this.storage, `images/${file.name}`);
-
-    uploadBytes(imgRef, file)
-      .then(async response => {
-        console.log(response);
-        const url = await getDownloadURL(imgRef);
-        this.formulario.patchValue({ imagen: url }); // Actualizar el valor del control 'imagen' en el formulario
-      })
-      .catch(error => console.log(error));
-  }
-
-  getImages() {
-    const imagesRef = ref(this.storage, 'images');
-    listAll(imagesRef)
-      .then(async response => {
-        console.log(response);
-        this.images = [];
-        for (let item of response.items) { // Recorrer y obtener los items
-          const url = await getDownloadURL(item);
-          this.images.push(url);
-        }
-      })
-      .catch(error => console.log(error));
-  }
-
-  filtrarPorCategoria(categoria: any): void {
-    switch (categoria.nombre) {
-      case 'Autores':
-        this.toggleMostrarAutores();
-        break;
-      case 'Titulos':
-        this.filtrarPorTitulo();
-        break;
-      case 'Disponibilidad':
-        this.filtrarPorDisponibilidad();
-        break;
-      case 'Categoria':
-        this.toggleMostrarCategorias();
-        break;
-      default:
-        this.librosFiltrados = this.libros;
-    }
-  }
-
-  filtrarPorTitulo() {
-    this.librosFiltrados = this.libros.sort((a, b) => a.nombre.localeCompare(b.nombre));
-  }
-
-  filtrarPorDisponibilidad() {
-    this.librosFiltrados = this.libros.filter(libro => libro.disponible);
   }
 
   edit(libro: Libro) {

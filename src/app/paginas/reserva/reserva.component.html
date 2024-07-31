@@ -1,9 +1,10 @@
-<div class="reservation-container">
+<div class="reservation-container" *ngIf="libroSeleccionado">
   <div class="image-container">
-    <img src="../../../assets/escritor.webp" alt="{{libroSeleccionado.nombre}}" />
-    <div class="form-group">
-      <label>Autor</label>
-      <p>{{libroSeleccionado.autor}}</p>
+    <img [src]="libroSeleccionado.imagen" alt="{{libroSeleccionado.nombre}}" />
+    <div class="info">
+      <h4>{{libroSeleccionado.nombre}}</h4>
+      <p>Autor: {{libroSeleccionado.autor}}</p>
+      <h5>$ {{libroSeleccionado.precio}}</h5>
     </div>
   </div>
   <div class="form-container">
@@ -33,4 +34,8 @@
       <button type="button" class="cancelar-btn" routerLink="/catalogo">Cancelar</button>
     </form>
   </div>
+</div>
+
+<div *ngIf="!libroSeleccionado">
+  <p>No se ha seleccionado ningún libro.</p>
 </div>
