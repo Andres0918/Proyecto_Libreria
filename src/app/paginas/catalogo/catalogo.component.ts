@@ -43,7 +43,7 @@ export class CatalogoComponent implements OnInit {
   }
 
   obtenerCategoriasDisponibles(libros: Libro[]): Categoria[] {
-    const categoriasUnicas = [...new Set(libros.map(libro => libro.categoria.nombre))];
+    const categoriasUnicas = [...new Set(libros.map(libro => libro.categoriaNombre))];
     return categoriasUnicas.map(nombre => ({ nombre }));
   }
 
@@ -112,7 +112,8 @@ export class CatalogoComponent implements OnInit {
   }
 
   seleccionarLibro(libro: Libro): void {
-    console.log('Seleccionando libro:', libro);
-    this.router.navigate(['/reserva'], { state: { libroSeleccionado: libro } });
+    console.log('Seleccionado libro:', libro);
+    this.informacionService.seleccionarLibro(libro);
+    this.router.navigate(['/reserva']);
   }
 }

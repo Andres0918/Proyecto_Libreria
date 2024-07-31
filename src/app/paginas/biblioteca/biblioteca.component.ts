@@ -1,15 +1,16 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { InformacionService } from '../../services/informacion.service';
 import Libro from '../../domain/libro';
 import Categoria from '../../domain/categoria';
 import { CommonModule } from '@angular/common';
 import { firstValueFrom } from 'rxjs';
+import { Router } from '@angular/router'; // Importa el Router
 
 @Component({
   selector: 'app-biblioteca',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule],
   templateUrl: './biblioteca.component.html',
   styleUrls: ['./biblioteca.component.scss']
 })
@@ -31,14 +32,14 @@ export class BibliotecaComponent implements OnInit {
   mostrarAutores = false;
   mostrarCategorias = false;
 
-  constructor(private informacionService: InformacionService) {
+  constructor(private informacionService: InformacionService, private router: Router) { // Inyecta el Router
     this.formulario = new FormGroup({
-      nombre: new FormControl(),
-      precio: new FormControl(),
-      autor: new FormControl(),
-      imagen: new FormControl(),
+      nombre: new FormControl('', Validators.required),
+      precio: new FormControl('', Validators.required),
+      autor: new FormControl('', Validators.required),
+      imagen: new FormControl('', Validators.required),
       disponible: new FormControl(true),
-      categoria: new FormControl('')
+      categoria: new FormControl('', Validators.required)
     });
   }
 
@@ -52,7 +53,7 @@ export class BibliotecaComponent implements OnInit {
   }
 
   obtenerCategoriasDisponibles(libros: Libro[]): Categoria[] {
-    const categoriasUnicas = [...new Set(libros.map(libro => libro.categoria.nombre))];
+    const categoriasUnicas = [...new Set(libros.map(libro => libro.categoriaNombre))];
     return categoriasUnicas.map(nombre => ({ nombre }));
   }
 
@@ -84,29 +85,42 @@ export class BibliotecaComponent implements OnInit {
   }
 
   filtrarPorCategoriaEspecifica(categoria: Categoria): void {
-    this.librosFiltrados = this.libros.filter(libro => libro.categoria.nombre === categoria.nombre);
+    this.librosFiltrados = this.libros.filter(libro => libro.categoriaNombre === categoria.nombre);
     this.mostrarCategorias = false;
   }
 
   async onSubmit() {
-    const libro: Libro = {
-      codigo: this.libroEnEdicion ? this.libroEnEdicion.codigo : undefined,
-      nombre: this.formulario.get('nombre')?.value,
-      precio: this.formulario.get('precio')?.value,
-      autor: this.formulario.get('autor')?.value,
-      imagen: this.formulario.get('imagen')?.value,
-      disponible: this.formulario.get('disponible')?.value,
-      categoria: { nombre: this.formulario.get('categoria')?.value }
-    };
+    if (this.formulario.valid) {
+      const libro: Libro = {
+        codigo: this.libroEnEdicion ? this.libroEnEdicion.codigo : undefined,
+        nombre: this.formulario.get('nombre')?.value,
+        precio: parseFloat(this.formulario.get('precio')?.value), // Asegurarse de que el precio sea un número
+        autor: this.formulario.get('autor')?.value,
+        imagen: this.formulario.get('imagen')?.value,
+        disponible: this.formulario.get('disponible')?.value,
+        categoriaNombre: this.formulario.get('categoria')?.value
+      };
+
+      console.log(libro); // Añadido para verificar que los datos del libro son correctos
 
       try {
-        const response = await firstValueFrom(this.informacionService.updateLibro(libro));
-        console.log(response);
+        if (this.libroEnEdicion) {
+          // Actualizar libro existente
+          const response = await firstValueFrom(this.informacionService.updateLibro(libro));
+          console.log('Book updated successfully', response);
+        } else {
+          // Agregar nuevo libro
+          const response = await firstValueFrom(this.informacionService.addLibro(libro));
+          console.log('Book added successfully', response);
+        }
+        this.resetForm();
       } catch (error) {
-        console.error('Error updating libro:', error);
+        console.error('Error updating or adding book:', error);
       }
-    
+    }
+  }
 
+  resetForm() {
     this.formulario.reset({
       disponible: true,
       categoria: ''
@@ -121,13 +135,13 @@ export class BibliotecaComponent implements OnInit {
   async delete(libro: Libro) {
     try {
       const response = await firstValueFrom(this.informacionService.deleteLibro(libro.nombre));
-      console.log(response);
+      console.log('Book deleted successfully', response);
       this.informacionService.getLibros().subscribe(libros => {
         this.libros = libros;
         this.librosFiltrados = libros;
       });
     } catch (error) {
-      console.error('Error deleting libro:', error);
+      console.error('Error deleting book:', error);
     }
   }
 
@@ -139,7 +153,11 @@ export class BibliotecaComponent implements OnInit {
       autor: libro.autor,
       imagen: libro.imagen,
       disponible: libro.disponible,
-      categoria: libro.categoria.nombre
+      categoria: libro.categoriaNombre
     });
+  }
+
+  devolver(libro: Libro) {
+    window.location.href = `http://192.168.184.209/proyectoFinal/devolucion.xhtml?libroNombre=${libro.nombre}`;
   }
 }

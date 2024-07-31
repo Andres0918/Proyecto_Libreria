@@ -1,10 +1,11 @@
 import Categoria from "./categoria";
+
 export default interface Libro{
     codigo?: number;
     nombre: string;
-    precio: string;
+    precio: number;
     autor: string;
     imagen: string;
     disponible: boolean;
-    categoria: Categoria;
+    categoriaNombre: string;
 }

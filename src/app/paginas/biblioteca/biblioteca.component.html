@@ -1,68 +1,68 @@
 <main class="contenedor">
-    <h1>ADMINISTRAR PRODUCTOS</h1>
-    <form [formGroup]="formulario" (ngSubmit)="onSubmit()">
-      <div class="mb-3">
-        <label class="form-label">Nombre</label><br>
-        <input type="text" class="form-control" formControlName="nombre">
-      </div>
-      <div class="mb-3">
-        <label class="form-label">Autor</label><br>
-        <input type="text" class="form-control" formControlName="autor">
-      </div>
-      <div class="mb-3">
-        <label class="form-label">Precio</label><br>
-        <input type="text" class="form-control" formControlName="precio">
-      </div>
-      <div class="mb-3">
-        <label class="form-label">Imagen</label><br>
-        <input type="text" class="form-control" formControlName="imagen"> <!-- Campo para ingresar enlace de imagen -->
-      </div>
-      <div class="mb-3">
-        <label class="form-label">Disponible</label><br>
-        <input type="checkbox" class="form-check-input" formControlName="disponible">
-      </div>
-      <div class="mb-3">
-        <label class="form-label">Categoría</label><br>
-        <input type="text" class="form-control" formControlName="categoria" (input)="filterCategorias()">
-        <ul *ngIf="filteredCategorias.length > 0" class="categoria-suggestions">
-          <li *ngFor="let cat of filteredCategorias" (click)="selectCategoria(cat)">{{ cat.nombre }}</li>
-        </ul>
-      </div>
-      <input type="submit" [value]="libroEnEdicion ? 'Actualizar' : 'Guardar'" class="btn btn-info">
-    </form>
-  
-    <div class="grid-container">
-      <div class="filtro-container">
-        <h2>Categorías</h2>
-        <ul class="categorias-lista">
-          <li *ngFor="let categoria of categorias">
-            <a (click)="filterCategorias()">{{ categoria.nombre }}</a>
-            <ul *ngIf="categoria.nombre === 'Autores' && mostrarAutores" class="autores-lista">
-              <li *ngFor="let autor of autores" (click)="filtrarPorAutorEspecifico(autor)">{{ autor }}</li>
-            </ul>
-            <ul *ngIf="categoria.nombre === 'Categoria' && mostrarCategorias" class="categorias-lista">
-              <li *ngFor="let cat of categoriasDisponibles" (click)="filtrarPorCategoriaEspecifica(cat)">{{ cat.nombre }}</li>
-            </ul>
-          </li>
-        </ul>
-      </div>
-      <div class="libros">
-        <div class="libro" *ngFor="let libro of librosFiltrados">
-          <div class="images">
-            <img [src]="libro.imagen" alt="{{libro.nombre}}">
-          </div>
-          <div class="info">
-            <h4>{{libro.nombre}}</h4>
-            <p>Autor: {{libro.autor}}</p>
-            <h5>$ {{libro.precio}}</h5>
-            <p *ngIf="libro.disponible">Disponible</p>
-            <p *ngIf="!libro.disponible">No Disponible</p>
-            <p>Categoría: {{libro.categoria.nombre}}</p>
-          </div>
-          <button class="btn-editar" (click)="edit(libro)"><i class="fas fa-pencil-alt"></i> Editar</button>
-          <button class="btn-eliminar" (click)="delete(libro)"><i class="fas fa-trash-alt"></i> Borrar</button>
+  <h1>ADMINISTRAR PRODUCTOS</h1>
+  <form [formGroup]="formulario" (ngSubmit)="onSubmit()">
+    <div class="mb-3">
+      <label class="form-label">Nombre</label><br>
+      <input type="text" class="form-control" formControlName="nombre">
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Autor</label><br>
+      <input type="text" class="form-control" formControlName="autor">
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Precio</label><br>
+      <input type="number" class="form-control" formControlName="precio">
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Imagen</label><br>
+      <input type="text" class="form-control" formControlName="imagen">
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Disponible</label><br>
+      <input type="checkbox" class="form-check-input" formControlName="disponible">
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Categoría</label><br>
+      <input type="text" class="form-control" formControlName="categoria" (input)="filterCategorias()">
+      <ul *ngIf="filteredCategorias.length > 0" class="categoria-suggestions">
+        <li *ngFor="let cat of filteredCategorias" (click)="selectCategoria(cat)">{{ cat.nombre }}</li>
+      </ul>
+    </div>
+    <input type="submit" [value]="libroEnEdicion ? 'Actualizar' : 'Guardar'" class="btn btn-info">
+  </form>
+
+  <div class="grid-container">
+    <div class="filtro-container">
+      <h2>Categorías</h2>
+      <ul class="categorias-lista">
+        <li *ngFor="let categoria of categorias">
+          <a (click)="filterCategorias()">{{ categoria.nombre }}</a>
+          <ul *ngIf="categoria.nombre === 'Autores' && mostrarAutores" class="autores-lista">
+            <li *ngFor="let autor of autores" (click)="filtrarPorAutorEspecifico(autor)">{{ autor }}</li>
+          </ul>
+          <ul *ngIf="categoria.nombre === 'Categoria' && mostrarCategorias" class="categorias-lista">
+            <li *ngFor="let cat of categoriasDisponibles" (click)="filtrarPorCategoriaEspecifica(cat)">{{ cat.nombre }}</li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+    <div class="libros">
+      <div class="libro" *ngFor="let libro of librosFiltrados">
+        <div class="images">
+          <img [src]="libro.imagen" alt="{{libro.nombre}}">
         </div>
+        <div class="info">
+          <h4>{{libro.nombre}}</h4>
+          <p>Autor: {{libro.autor}}</p>
+          <h5>$ {{libro.precio}}</h5>
+          <p *ngIf="libro.disponible">Disponible</p>
+          <p *ngIf="!libro.disponible">No Disponible</p>
+          <p>Categoría: {{libro.categoriaNombre}}</p>
+        </div>
+        <button class="btn-editar" (click)="edit(libro)"><i class="fas fa-pencil-alt"></i> Editar</button>
+        <button class="btn-eliminar" (click)="delete(libro)"><i class="fas fa-trash-alt"></i> Borrar</button>
+        <button class="btn-devolver" (click)="devolver(libro)"><i class="fas fa-undo"></i> Devolver</button>
       </div>
     </div>
-  </main>
-  
+  </div>
+</main>
