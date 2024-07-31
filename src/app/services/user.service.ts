@@ -77,8 +77,9 @@ export class UserService {
 
   getRoleByEmail(email: string | null): Observable<string> {
     const url = enviroment.WS_PATH+'/usuarios/'+email
+    console.log(url)
     return this.http.get<any>(url).pipe(
-      map(user => user.role)
+      map(user => user.rol)
     );
   }
 

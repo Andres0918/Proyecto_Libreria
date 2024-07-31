@@ -23,14 +23,15 @@ export class HeaderComponent {
     const adminLink = document.getElementById('admin');
     const commonLink = document.getElementById('common');
     const adminLink2 = document.getElementById('admin2');
-    const adminLink3 = document.querySelectorAll<HTMLElement>('#admin3'); // Cambiado para múltiples elementos
+    const adminLink3 = document.querySelectorAll<HTMLElement>('#admin3');
 
     onAuthStateChanged(this.auth, async (user) => {
       console.log('usuario xd: ',user)
       if(user && user.email){
-        this.userServices.getRoleByEmail(user.email).subscribe(
+         this.userServices.getRoleByEmail(user.email).subscribe(
           role => {
-            console.log('Rol: ', role);
+            this.role = role
+            console.log('Rol: ', this.role);
             if (adminLink && commonLink && adminLink2 && adminLink3) {
               if (role === 'admin') {
                 adminLink.style.display = 'block';
